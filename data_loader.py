@@ -91,15 +91,15 @@ def data_pull_and_load(
 
     transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), ResizeWithPadOrCrop(spatial_size=resize_spatial_size)])
 
-    healthy_split = len(healthy) // (1.0 - test_split)
-    schiz_split = len(schiz) // (1.0 - test_split)
+    healthy_split = int(len(healthy) * (1.0 - test_split))
+    schiz_split = int(len(schiz) * (1.0 - test_split))
 
     train_healthy_ds = ImageDataset(image_files=healthy[:healthy_split], labels=healthy_labels[:healthy_split], image_only=True, transform=transforms)
     train_schiz_ds = ImageDataset(image_files=schiz[:schiz_split], labels=schiz_labels[:schiz_split],image_only=True, transform=transforms)
     train_ds = train_healthy_ds + train_schiz_ds 
     # type(train_ds) 
 
-    train_loader = DataLoader(train_ds, batch_size=8, shuffle=True, num_workers=2, pin_memory=pin_memory)
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
     # im2, label2 = monai.utils.misc.first(train_loader)
     # print(type(im2), im2.shape, label2, label2.shape)
 
