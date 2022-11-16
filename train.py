@@ -104,7 +104,6 @@ def main():
         if epoch_train_accuracy > train_best_metric:
             train_best_metric = epoch_train_accuracy
             train_best_metric_epoch = epoch + 1
-        # torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
         print("saved new training best metric model")
         print(f"Best train accuracy: {train_best_metric:.4f} at epoch {train_best_metric_epoch}")
 
@@ -125,7 +124,7 @@ def main():
             if metric > best_metric:
                 best_metric = metric
                 best_metric_epoch = epoch + 1
-                # torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+                torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
                 print("saved new validation best metric model")
 
             print(f"Current epoch: {epoch+1} current accuracy: {metric:.4f} ")
