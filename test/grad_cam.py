@@ -8,6 +8,7 @@ from monai.transforms import (
     Compose,
     Resize,
     ResizeWithPadOrCrop,
+    LoadImage,
     Spacing,
     ScaleIntensity,
     Orientation, 
@@ -31,19 +32,25 @@ def generate_cam (model, image_path, image_label, state_dict_path):
     last_conv_layer_name.register_backward_hook(backward_hook)
     grad = []
     activation = []
+  
+    transforms = Compose([LoadImage(ensure_channel_first=True, image_only=True),ScaleIntensity(), Orientation(axcodes='RAS'), Spacing(pixdim=(2,2,2)), ResizeWithPadOrCrop(spatial_size=(99,99,99))])
 
-    transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=(2,2,2)), ResizeWithPadOrCrop(spatial_size=(99,99,99))])
+    # pred = ImageDataset(image_files=image_path, labels=image_label, image_only=True, transform=transforms)
 
-    pred = ImageDataset(image_files=image_path, labels=image_label, image_only=True, transform=transforms)
+    # pred = DataLoader(pred, pin_memory=pin_memory)
+  
+    image = transforms(image_path)
 
-    pred = DataLoader(pred, pin_memory=pin_memory)
+    label_pred = image_label
 
-    image , label_pred = pred[0].to(device), pred[1].to(device)
+    # pred = monai.utils.misc.first(pred)
+    # image , label_pred = pred[0].to(device), pred[1].to(device)
     
+    print(model)
+    print(state_dict_path)
     theModel = model.load_state_dict(torch.load(state_dict_path))
-
+    print('oops')
     predicted = theModel(image).to(device)
-
     pred_labels = []
     for i in label_pred:
     # print(i.item())
