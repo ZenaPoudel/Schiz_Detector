@@ -2,8 +2,11 @@ import argparse
 from grad_cam import generate_cam 
 import matplotlib.pyplot as plt
 import numpy as np
-import trainer.model
+import sys
 
+from numpy.ma.core import masked_inside
+sys.path.insert(0,'/content/Schiz_Detector/trainer')
+from model import model_3DCNN
 def main():
     parser = argparse.ArgumentParser(description='visualise the heatmap as per the slice number provided')
     parser.add_argument('--slice_num', type=int, default=45)
@@ -15,9 +18,9 @@ def main():
     parser.add_argument('--dropout', type=int, default=0.3)
 
     args = parser.parse_args()
-
-    model = model.model_3DCNN(args.dropout)
-
+    print('hillo')
+    model = model_3DCNN(args.dropout)
+    
     image, cam = generate_cam(model, args.image_path, args.image_label, args.state_dict_path)
 
     heat_map = image.cpu()*0.7+ cam*0.3
@@ -48,3 +51,5 @@ def main():
             plt.show(block=False)
             plt.pause(0.3)
             plt.close()  
+if __name__ == '__main__':
+	main()
