@@ -125,16 +125,34 @@ def main():
             if metric > best_metric:
                 best_metric = metric
                 best_metric_epoch = epoch + 1
-                # torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+                torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
                 print("saved new validation best metric model")
 
             print(f"Current epoch: {epoch+1} current accuracy: {metric:.4f} ")
             print(f"Best validation accuracy: {best_metric:.4f} at epoch {best_metric_epoch}")
             # writer.add_scalar("val_accuracy", metric, epoch + 1)
 
-    print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}")
-    print(f"Training completed, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
-
-
+    	print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}")
+    	print(f"Training completed, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
+    	plt.figure('train', (12,6))
+	plt.subplot(1,2,1)
+	plt.title("Epoch Average Loss")
+	x = [i+1 for i in range(len(epoch_loss_values))]
+	y = epoch_loss_values
+	plt.xlabel('epoch')
+	plt.plot(x, y)
+	plt.show()
+	plt.title("Training: Accuracy_curve")
+	x = [i+1 for i in range(len(epoch_train_accuracy_values))]
+	y = epoch_train_accuracy_values
+	plt.xlabel('epoch')
+	plt.plot(x, y)
+	plt.show()
+	plt.title("Validation: Accuracy_Curve")
+	x = [val_interval * (i+1) for i in range(len(metric_values))]
+	y = metric_values
+	plt.xlabel('epoch')
+	plt.plot(x,y)
+	plt.show() 		
 if __name__ == '__main__':
 	main()
