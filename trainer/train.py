@@ -6,6 +6,8 @@ from data_loader import data_pull_and_load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import json
+import sys
 
 device = torch.device("cuda" ) if torch.cuda.is_available() else "cpu"
 
@@ -134,6 +136,6 @@ def main():
 
     print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}")
     print(f"Training completed, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
-    return epoch_loss_values, epoch_train_accuracy_values, metric_values
+    sys.stdout.write(json.dumps(epoch_loss_values, epoch_train_accuracy_values, metric_values))
 if __name__ == '__main__':
 	main()
