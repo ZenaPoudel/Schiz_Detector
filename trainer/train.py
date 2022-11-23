@@ -134,25 +134,6 @@ def main():
 
     print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}")
     print(f"Training completed, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
-    plt.figure('train', (12,6))
-    plt.subplot(1,2,1)
-    plt.title("Epoch Average Loss")
-    x = [i+1 for i in range(len(epoch_loss_values))]
-    y = epoch_loss_values
-    plt.xlabel('epoch')
-    plt.plot(x, y)
-    plt.show()
-    plt.title("Training: Accuracy_curve")
-    x = [i+1 for i in range(len(epoch_train_accuracy_values))]
-    y = epoch_train_accuracy_values
-    plt.xlabel('epoch')
-    plt.plot(x, y)
-    plt.show()
-    plt.title("Validation: Accuracy_Curve")
-    x = [val_interval * (i+1) for i in range(len(metric_values))]
-    y = metric_values
-    plt.xlabel('epoch')
-    plt.plot(x,y)
-    plt.show() 		
+    return epoch_loss_values, epoch_train_accuracy_values, metric_values
 if __name__ == '__main__':
 	main()
