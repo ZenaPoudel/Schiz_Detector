@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def plot_curve(epoch_loss_values, epoch_train_accuracy_values, metric_values)
+def plot_curve(epoch_loss_values, epoch_train_accuracy_values, metric_values):
   plt.figure('train', (12,6))
   plt.subplot(1,2,1)
   plt.title("Epoch Average Loss")
