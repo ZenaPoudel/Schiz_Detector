@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description='Base_paper 1 3D convolution for action recognition')
     parser.add_argument('--batch', type=int, default=8)
     parser.add_argument('--epoch', type=int, default=50)
-    parser.add_argument('--learning rate', type=float, default=0.0001)
+    parser.add_argument('--learning_rate', type=float, default=0.0001)
     parser.add_argument('--dropout', type=float, default=0.3)
 
     parser.add_argument('--data_source', type=str, default='MCIC')
@@ -39,7 +39,7 @@ def main():
 
     # loss_function = torch.nn.BCEWithLogitsLoss()
     loss_function = torch.nn.BCELoss()
-    optimizer = torch.optim.Adam(model.parameters(), args.learning rate)
+    optimizer = torch.optim.Adam(model.parameters(), args.learning_rate)
     val_interval = 1
     best_metric = -1
     best_metric_epoch = -1
