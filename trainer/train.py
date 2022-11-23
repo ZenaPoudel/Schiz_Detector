@@ -39,7 +39,7 @@ def main():
 
     # loss_function = torch.nn.BCEWithLogitsLoss()
     loss_function = torch.nn.BCELoss()
-    optimizer = torch.optim.Adam(model.parameters(), 0.0001)
+    optimizer = torch.optim.Adam(model.parameters(), args.learning rate)
     val_interval = 1
     best_metric = -1
     best_metric_epoch = -1
