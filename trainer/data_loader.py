@@ -53,17 +53,38 @@ def data_pull_and_load(
             file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*_T1w.nii', recursive = True)
         elif mri_type == 'T2':
             file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*_T2w.nii', recursive = True)
+        elif mri_type == 'both':
+            file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*.nii', recursive = True)
         tsv_path = '/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/participants.tsv'
-    
+        participants = pd.read_csv(tsv_path,sep='\t')
     elif data_source == 'COBRE':
         if mri_type == 'T1':
-            file = glob.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T1w.nii.gz', recursive = True)
+            file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T1w.nii.gz', recursive = True)
         elif mri_type == 'T2':
-            file = glob.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T2w.nii.gz', recursive = True)
+            file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T2w.nii.gz', recursive = True)
+        elif mri_type == 'both':
+            file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*.nii.gz', recursive = True)
         tsv_path = '/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/participants.tsv'
-    
-
-    participants = pd.read_csv(tsv_path,sep='\t')
+        participants = pd.read_csv(tsv_path,sep='\t')
+    elif data_source == 'both':
+        if mri_type == 'T1':
+            mcic_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*_T1w.nii', recursive = True)
+            cobre_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T1w.nii.gz', recursive = True)
+            file = np.concatenate((mcic_file, cobre_file))
+            np.array(np.random.shuffle(file))
+        elif mri_type == 'T2':
+            mcic_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*_T2w.nii', recursive = True)
+            cobre_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T2w.nii.gz', recursive = True)
+            file = np.concatenate((mcic_file, cobre_file))
+            np.random.shuffle(file)
+        elif mri_type == 'both':
+            mcic_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*.nii', recursive = True)
+            cobre_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*.nii.gz', recursive = True)
+            file = np.concatenate((mcic_file, cobre_file))
+            np.random.shuffle(file)
+        mcic_tsv_path = '/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/participants.tsv'
+        cobre_tsv_path = '/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/participants.tsv'
+        participants = pd.concat([pd.read_csv(mcic_tsv_path,sep='\t'),pd.read_csv(cobre_tsv_path,sep='\t')])
 
     healthy_subjects = []
     schiz_subjects = []
