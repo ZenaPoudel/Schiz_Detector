@@ -1,5 +1,6 @@
 import argparse
 from grad_cam import generate_cam 
+
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
@@ -18,7 +19,6 @@ def main():
     parser.add_argument('--dropout', type=int, default=0.3)
 
     args = parser.parse_args()
-    print('hillo')
     model = model_3DCNN(args.dropout)
     
     image, cam = generate_cam(model, args.image_path, args.image_label, args.state_dict_path)
@@ -30,8 +30,9 @@ def main():
         plt.imshow(test_heat)
         plt.show()
     elif args.visualize== '3d':
-        x,y,z = heat_map.shape
+        a,b,x,y,z = heat_map.shape
         frames = []
+        
         if (args.view == 'axial'):
             for i in range(0, x):
                 frame = heat_map[0,0,:,:,i]
