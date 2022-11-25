@@ -28,6 +28,7 @@ def generate_cam (model, image_path, image_label, state_dict_path):
         grad.append(grad_out[0])
     
     last_conv_layer_name= last_conv_layer()
+    print(last_conv_layer_name)
     last_conv_layer_name.register_forward_hook(forward_hook)
     last_conv_layer_name.register_backward_hook(backward_hook)
     grad = []
