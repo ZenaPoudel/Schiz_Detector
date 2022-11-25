@@ -21,8 +21,7 @@ def plot_curve(epoch_loss_values, epoch_train_accuracy_values, metric_values):
   y1 = args.epoch_train_accuracy_values
   plt.xlabel('epoch')
   plt.plot(x1, y1)
-  plt.show()
-  hold on
+  
   plt.title("Validation: Accuracy_Curve")
   x2 = [(i+1) for i in range(len(args.metric_values))]
   y2 = args.metric_values
