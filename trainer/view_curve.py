@@ -28,4 +28,3 @@ def plot_curve(epoch_loss_values, epoch_train_accuracy_values, metric_values):
   plt.xlabel('epoch')
   plt.plot(x2,y2)
   plt.show() 		
-  hold off
