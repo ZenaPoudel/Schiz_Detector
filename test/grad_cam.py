@@ -22,13 +22,13 @@ def generate_cam (model, image_path, image_label, state_dict_path):
     def last_conv_layer():
         last_conv_layer_name = list(filter(lambda x: isinstance(x, nn.Conv3d), model.modules()))[-1]
         return last_conv_layer_name
+    
     def forward_hook(module, input, output):
         activation.append(output)
     def backward_hook(module, grad_in, grad_out):
         grad.append(grad_out[0])
     
     last_conv_layer_name= last_conv_layer()
-    print(last_conv_layer_name)
     last_conv_layer_name.register_forward_hook(forward_hook)
     last_conv_layer_name.register_backward_hook(backward_hook)
     grad = []
@@ -40,22 +40,22 @@ def generate_cam (model, image_path, image_label, state_dict_path):
     image = Spacing(pixdim=(2,2,2))(image)
     image = ResizeWithPadOrCrop(spatial_size=(99,99,99))(image)
     image = image.unsqueeze_(0)
+    image = image.cuda()
 
     label_pred = image_label
-    
+    model = model.cuda()
     model.load_state_dict(torch.load(state_dict_path))
-    model.eval()
-    predicted = model(image).to(device)
     
+    model.eval()
+    predicted = model(image)
+
     pred_labels = []
-    for i in label_pred:
-    # print(i.item())
-        if i == 0:
-            i = [1,0]
-            pred_labels.append(i)
-        elif i == 1:
-            i = [0,1]
-            pred_labels.append(i)
+    if label_pred == 0:
+        label_pred = [1,0]
+        pred_labels.append(label_pred)
+    elif label_pred == 1:
+        label_pred = [0,1]
+        pred_labels.append(label_pred)
     pred_label = np.array(pred_labels)
     pred_labels = torch.from_numpy(pred_label)
     pred_labels = pred_labels.float().to(device)
