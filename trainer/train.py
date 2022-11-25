@@ -144,21 +144,18 @@ def main():
     y = epoch_loss_values
     plt.xlabel('epoch')
     plt.plot(x, y)
-    plt.show()
-    plt.title("Training and Validation: Accuracy_curve")
+    plt.savefig('EpochAverageLoss.png')
     x1 = [i+1 for i in range(len(epoch_train_accuracy_values))]
     y1 = epoch_train_accuracy_values
-    plt.xlabel('epoch')
-    plt.plot(x1, y1)
-    plt.show()
-    hold on
-    plt.title("Validation: Accuracy_Curve")
     x2 = [(i+1) for i in range(len(metric_values))]
     y2 = metric_values
-    plt.xlabel('epoch')
-    plt.plot(x2,y2)
-    plt.show() 		
-    hold off
+    plt.plot(x1,y1, label='Training Accuracy')
+
+    plt.plot(x2, y2, label='Validation Accuracy')
+    plt.title('Training and Validation Accurccy')
+
+    plt.legend(loc='upper right')
+    plt.savefig('TrainingandValidationAccurccy.png')
     
 
 if __name__ == '__main__':
