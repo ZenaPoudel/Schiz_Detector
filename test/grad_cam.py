@@ -33,24 +33,19 @@ def generate_cam (model, image_path, image_label, state_dict_path):
     grad = []
     activation = []
   
-    transforms = Compose([LoadImage(ensure_channel_first=True, image_only=True),ScaleIntensity(), Orientation(axcodes='RAS'), Spacing(pixdim=(2,2,2)), ResizeWithPadOrCrop(spatial_size=(99,99,99))])
-
-    # pred = ImageDataset(image_files=image_path, labels=image_label, image_only=True, transform=transforms)
-
-    # pred = DataLoader(pred, pin_memory=pin_memory)
-  
-    image = transforms(image_path)
+    image = LoadImage(ensure_channel_first=True, image_only=True)(image_path)
+    image = ScaleIntensity()(image)
+    image = Orientation(axcodes='RAS')(image)
+    image = Spacing(pixdim=(2,2,2))(image)
+    image = ResizeWithPadOrCrop(spatial_size=(99,99,99))(image)
+    image = image.unsqueeze_(0)
 
     label_pred = image_label
-
-    # pred = monai.utils.misc.first(pred)
-    # image , label_pred = pred[0].to(device), pred[1].to(device)
     
-    print(model)
-    print(state_dict_path)
-    theModel = model.load_state_dict(torch.load(state_dict_path))
-    print('oops')
-    predicted = theModel(image).to(device)
+    model.load_state_dict(torch.load(state_dict_path))
+    model.eval()
+    predicted = model(image).to(device)
+    
     pred_labels = []
     for i in label_pred:
     # print(i.item())
@@ -68,7 +63,7 @@ def generate_cam (model, image_path, image_label, state_dict_path):
 
     pred_loss = loss_function(predicted, pred_labels)
 
-    theModel.zero_grad()
+    model.zero_grad()
 
     pred_loss.backward()
 
