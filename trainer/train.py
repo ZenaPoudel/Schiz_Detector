@@ -1,5 +1,6 @@
 import argparse
 import torch
+from ignite.metrics import Accuracy, Precision, Recall
 from torch.nn.modules.loss import NLLLoss
 from model import model_3DCNN
 from data_loader import data_pull_and_load
