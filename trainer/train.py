@@ -164,13 +164,13 @@ def main():
 					val_precision = Precision()
 					val_precision.reset()
 					val_precision.update((val_outputs.argmax(dim=1), val_labels))
-					val_batch_precision = precision.compute()
+					val_batch_precision = val_precision.compute()
 					epoch_val_precision += val_batch_precision
 
 					val_recall = Recall()
 					val_recall.reset()
 					val_recall.update((val_outputs.argmax(dim=1), val_labels))
-					val_batch_recall = recall.compute()
+					val_batch_recall = val_recall.compute()
 					epoch_val_recall += val_batch_recall
 
 					val_batch_F1 = (val_batch_precision * val_batch_recall * 2 / (val_batch_precision + val_batch_recall))
@@ -216,8 +216,8 @@ def main():
 	
 	x3 = [(i+1) for i in range(len(epoch_val_accuracy_values))]
 	y3 = epoch_val_accuracy_values
-	x2 = [i+1 for i in range(len(epoch_val_F1_values))]
-	y2 = epoch_train_F1_values
+	x4 = [i+1 for i in range(len(epoch_val_F1_values))]
+	y4 = epoch_train_F1_values
 	
 	plt.plot(x, y, label='Training Loss')
 	
