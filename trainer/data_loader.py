@@ -111,6 +111,7 @@ def data_pull_and_load(
             schiz_labels.append(1)
 
     transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), ResizeWithPadOrCrop(spatial_size=resize_spatial_size)])
+#     print("Resize instead of ResizeWithPadOrCrop")
 #     transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), Resize(spatial_size=resize_spatial_size)])
 
     healthy_split = int(len(healthy) * (1.0 - test_split))
