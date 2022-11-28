@@ -146,44 +146,44 @@ def main():
 			metric_count = 0
 			val_step = 0
 			for val_data in val_loader:
-			val_step +=1
-			val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
-			with torch.no_grad():
-			val_outputs = model(val_images)
-			val_accuracy = Accuracy()
-			val_accuracy.reset()
-			val_accuracy.update((val_outputs, val_labels))
-			val_batch_acc = val_accuracy.compute()
-			epoch_val_accuracy += val_batch_acc
+				val_step +=1
+				val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
+				with torch.no_grad():
+					val_outputs = model(val_images)
+					val_accuracy = Accuracy()
+					val_accuracy.reset()
+					val_accuracy.update((val_outputs, val_labels))
+					val_batch_acc = val_accuracy.compute()
+					epoch_val_accuracy += val_batch_acc
 
-			val_precision = Precision()
-			val_precision.reset()
-			val_precision.update((val_outputs.argmax(dim=1), val_labels))
-			val_batch_precision = precision.compute()
-			epoch_val_precision += val_batch_precision
+					val_precision = Precision()
+					val_precision.reset()
+					val_precision.update((val_outputs.argmax(dim=1), val_labels))
+					val_batch_precision = precision.compute()
+					epoch_val_precision += val_batch_precision
 
-			val_recall = Recall()
-			val_recall.reset()
-			val_recall.update((val_outputs.argmax(dim=1), val_labels))
-			val_batch_recall = recall.compute()
-			epoch_val_recall += val_batch_recall
+					val_recall = Recall()
+					val_recall.reset()
+					val_recall.update((val_outputs.argmax(dim=1), val_labels))
+					val_batch_recall = recall.compute()
+					epoch_val_recall += val_batch_recall
 
-			val_batch_F1 = (val_batch_precision * val_batch_recall * 2 / (val_batch_precision + val_batch_recall))
-			if val_batch_F1!=val_batch_F1:
-				val_batch_F1 = 0
-			else: 
-				val_batch_F1 =val_batch_F1
+					val_batch_F1 = (val_batch_precision * val_batch_recall * 2 / (val_batch_precision + val_batch_recall))
+					if val_batch_F1!=val_batch_F1:
+						val_batch_F1 = 0
+					else: 
+						val_batch_F1 =val_batch_F1
 
-			epoch_val_F1 += val_batch_F1
+					epoch_val_F1 += val_batch_F1
 
-			epoch_val_accuracy /= val_step
-			epoch_val_accuracy_values.append(epoch_val_accuracy)
-			epoch_val_precision /= val_step
-			epoch_val_precision_values.append(epoch_val_precision)
-			epoch_val_recall /= val_step
-			epoch_val_recall_values.append(epoch_val_recall)
-			epoch_val_F1 /= val_step
-			epoch_val_F1_values.append(epoch_val_F1)
+					epoch_val_accuracy /= val_step
+					epoch_val_accuracy_values.append(epoch_val_accuracy)
+					epoch_val_precision /= val_step
+					epoch_val_precision_values.append(epoch_val_precision)
+					epoch_val_recall /= val_step
+					epoch_val_recall_values.append(epoch_val_recall)
+					epoch_val_F1 /= val_step
+					epoch_val_F1_values.append(epoch_val_F1)
 
 			if epoch_val_F1 > best_metric:
 				best_metric = epoch_val_F1
