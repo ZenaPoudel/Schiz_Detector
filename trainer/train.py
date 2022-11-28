@@ -77,11 +77,11 @@ def main():
 			labels = []
 			for i in labe:
 			if i == 0:
-			i = [1,0]
-			labels.append(i)
+				i = [1,0]
+				labels.append(i)
 			elif i == 1:
-			i = [0,1]
-			labels.append(i)
+				i = [0,1]
+				labels.append(i)
 			label = np.array(labels)
 			labels = torch.from_numpy(label)
 			labels = labels.float().to(device)
@@ -112,9 +112,9 @@ def main():
 
 			batch_F1 = (batch_precision * batch_recall * 2 / (batch_precision + batch_recall))
 			if batch_F1!=batch_F1:
-			batch_F1 = 0
+				batch_F1 = 0
 			else: 
-			batch_F1 =batch_F1
+				batch_F1 =batch_F1
 
 			epoch_train_F1 += batch_F1
 
@@ -134,10 +134,10 @@ def main():
 
 
 		if epoch_train_F1 > train_best_metric:
-		train_best_metric = epoch_train_F1
-		train_best_metric_epoch = epoch + 1
-		# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
-		# print("saved new training best metric model")
+			train_best_metric = epoch_train_F1
+			train_best_metric_epoch = epoch + 1
+			# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+			# print("saved new training best metric model")
 		print(f"Best train F1 score: {train_best_metric:.4f} at epoch {train_best_metric_epoch}")
 
 		if (epoch + 1) % val_interval == 0:
@@ -170,9 +170,9 @@ def main():
 
 			val_batch_F1 = (val_batch_precision * val_batch_recall * 2 / (val_batch_precision + val_batch_recall))
 			if val_batch_F1!=val_batch_F1:
-			val_batch_F1 = 0
+				val_batch_F1 = 0
 			else: 
-			val_batch_F1 =val_batch_F1
+				val_batch_F1 =val_batch_F1
 
 			epoch_val_F1 += val_batch_F1
 
