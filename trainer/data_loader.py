@@ -114,8 +114,8 @@ def data_pull_and_load(
 #     print("Resize instead of ResizeWithPadOrCrop")
 #     transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), Resize(spatial_size=resize_spatial_size)])
 
-    healthy_split = int(len(healthy) * (0.5 - test_split))
-    schiz_split = int(len(schiz) * (0.5 - test_split))
+    healthy_split = int(len(healthy) * (1 - test_split))
+    schiz_split = int(len(schiz) * (1 - test_split))
 
     train_healthy_ds = ImageDataset(image_files=healthy[:healthy_split], labels=healthy_labels[:healthy_split], image_only=True, transform=transforms)
     train_schiz_ds = ImageDataset(image_files=schiz[:schiz_split], labels=schiz_labels[:schiz_split],image_only=True, transform=transforms)
@@ -127,8 +127,8 @@ def data_pull_and_load(
     # print(type(im2), im2.shape, label2, label2.shape)
 
     # create a validation data loader
-    val_healthy_ds = ImageDataset(image_files=healthy[healthy_split:60], labels=healthy_labels[healthy_split:], image_only=True, transform=transforms)
-    val_schiz_ds = ImageDataset(image_files=schiz[schiz_split:60], labels=schiz_labels[schiz_split:], image_only=True,  transform=transforms)
+    val_healthy_ds = ImageDataset(image_files=healthy[healthy_split:], labels=healthy_labels[healthy_split:], image_only=True, transform=transforms)
+    val_schiz_ds = ImageDataset(image_files=schiz[schiz_split:], labels=schiz_labels[schiz_split:], image_only=True,  transform=transforms)
     val_ds = val_healthy_ds + val_schiz_ds 
 
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
