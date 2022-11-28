@@ -181,14 +181,14 @@ def main():
 
 					epoch_val_F1 += val_batch_F1
 
-					epoch_val_accuracy /= val_step
-					epoch_val_accuracy_values.append(epoch_val_accuracy)
-					epoch_val_precision /= val_step
-					epoch_val_precision_values.append(epoch_val_precision)
-					epoch_val_recall /= val_step
-					epoch_val_recall_values.append(epoch_val_recall)
-					epoch_val_F1 /= val_step
-					epoch_val_F1_values.append(epoch_val_F1)
+			epoch_val_accuracy /= val_step
+			epoch_val_accuracy_values.append(epoch_val_accuracy)
+			epoch_val_precision /= val_step
+			epoch_val_precision_values.append(epoch_val_precision)
+			epoch_val_recall /= val_step
+			epoch_val_recall_values.append(epoch_val_recall)
+			epoch_val_F1 /= val_step
+			epoch_val_F1_values.append(epoch_val_F1)
 
 			if epoch_val_F1 > best_metric:
 				best_metric = epoch_val_F1
