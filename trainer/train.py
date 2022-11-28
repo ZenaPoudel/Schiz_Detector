@@ -180,6 +180,7 @@ def main():
 						val_batch_F1 =val_batch_F1
 
 					epoch_val_F1 += val_batch_F1
+					print(f"{val_step}, val_accuracy: {val_batch_acc:.4f}, val_precision: {val_batch_precision:.4f}, val_recall: {val_batch_recall:.4f}, val_F1: {val_batch_F1:.4f}")
 
 			epoch_val_accuracy /= val_step
 			epoch_val_accuracy_values.append(epoch_val_accuracy)
