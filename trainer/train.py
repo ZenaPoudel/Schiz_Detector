@@ -76,12 +76,12 @@ def main():
 			outputs = model(inputs)
 			labels = []
 			for i in labe:
-			if i == 0:
-				i = [1,0]
-				labels.append(i)
-			elif i == 1:
-				i = [0,1]
-				labels.append(i)
+				if i == 0:
+					i = [1,0]
+					labels.append(i)
+				elif i == 1:
+					i = [0,1]
+					labels.append(i)
 			label = np.array(labels)
 			labels = torch.from_numpy(label)
 			labels = labels.float().to(device)
