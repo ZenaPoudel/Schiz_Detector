@@ -48,8 +48,13 @@ def main():
 	train_accuracy = -1
 	epoch_loss_values = []
 	epoch_train_accuracy_values = []
-	train_metric_values = []
-	metric_values = []
+	epoch_train_precision_values = []
+	epoch_train_recall_values = []
+	epoch_train_F1_values = []
+	epoch_val_accuracy_values = []
+	epoch_val_precision_values = []
+	epoch_val_recall_values = []
+	epoch_val_F1_values = []
 	# writer = SummaryWriter()
 	max_epochs = args.epoch
 
@@ -203,15 +208,26 @@ def main():
 	plt.title("Epoch Average Loss")
 	x = [i+1 for i in range(len(epoch_loss_values))]
 	y = epoch_loss_values
-	plt.xlabel('epoch')
-	plt.plot(x, y, label='Training Loss')
 	x1 = [i+1 for i in range(len(epoch_train_accuracy_values))]
 	y1 = epoch_train_accuracy_values
-	x2 = [(i+1) for i in range(len(metric_values))]
-	y2 = metric_values
+	x2 = [i+1 for i in range(len(epoch_train_F1_values))]
+	y2 = epoch_train_F1_values
+	
+	x3 = [(i+1) for i in range(len(epoch_val_accuracy_values))]
+	y3 = epoch_val_accuracy_values
+	x2 = [i+1 for i in range(len(epoch_val_F1_values))]
+	y2 = epoch_train_F1_values
+	
+	plt.plot(x, y, label='Training Loss')
+	
 	plt.plot(x1,y1, label='Training Accuracy')
 
-	plt.plot(x2, y2, label='Validation Accuracy')
+	plt.plot(x2, y2, label='Training F1 score')
+	
+	plt.plot(x3, y3, label='Validation Accuracy')
+	
+	plt.plot(x4, y4, label='epoch_train_F1_values')
+	
 	plt.title('Training and Validation Accurccy')
 
 	plt.legend(loc='upper right')
