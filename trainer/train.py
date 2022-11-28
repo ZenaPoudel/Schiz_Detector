@@ -204,8 +204,7 @@ def main():
 	x = [i+1 for i in range(len(epoch_loss_values))]
 	y = epoch_loss_values
 	plt.xlabel('epoch')
-	plt.plot(x, y)
-	plt.savefig('EpochAverageLoss.png')
+	plt.plot(x, y, label='Training Loss')
 	x1 = [i+1 for i in range(len(epoch_train_accuracy_values))]
 	y1 = epoch_train_accuracy_values
 	x2 = [(i+1) for i in range(len(metric_values))]
