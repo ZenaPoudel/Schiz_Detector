@@ -155,6 +155,7 @@ def main():
 				val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
 				with torch.no_grad():
 					val_outputs = model(val_images)
+					print(val_step)
 					print(val_outputs.argmax(dim=1))
 					print(val_labels)
 # 					val_accuracy = Accuracy()
