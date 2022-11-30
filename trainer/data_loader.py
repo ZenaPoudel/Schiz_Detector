@@ -92,8 +92,8 @@ def data_pull_and_load(
         MCIC_schiz_subjects = []
         COBRE_healthy_subjects = []
         COBRE_schiz_subjects = []
-        participants['diagnosis'] = np.where(mcic_participants = participants['dx']== 'No_Known_Disorder', 0, 1)
-        participants['diagnosis'] = np.where(participants['dx']== 'No_Known_Disorder', 0, 1)
+        mcic_participants['diagnosis'] = np.where(mcic_participants['dx']== 'No_Known_Disorder', 0, 1)
+        cobre_participants['diagnosis'] = np.where(cobre_participants['dx']== 'No_Known_Disorder', 0, 1)
         
         for index, row in mcic_participants.iterrows():
             if (row['diagnosis'] == 1):
