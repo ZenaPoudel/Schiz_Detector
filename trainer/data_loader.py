@@ -158,8 +158,8 @@ def data_pull_and_load(
                       
         healthy_train_label = np.concatenate((MCIC_healthy_labels[:30], COBRE_healthy_labels[:30]))
         schiz_train_label = np.concatenate((MCIC_schiz_labels[:30], COBRE_schiz_labels[:30]))
-        healthy_val_label = np.concatenate((MCIC_healthy_labels[30:50], COBRE_healthy_labels[30:50]))
-        schiz_val_label = np.concatenate((MCIC_schiz[30:50], COBRE_schiz[30:50]))
+        healthy_val_label = np.concatenate((MCIC_healthy_labels[30:40], COBRE_healthy_labels[30:40]))
+        schiz_val_label = np.concatenate((MCIC_schiz[30:40], COBRE_schiz[30:40]))
                                      
         train_healthy_ds = ImageDataset(image_files= healthy_train, labels=healthy_train_label, image_only=True, transform=transforms)
         train_schiz_ds = ImageDataset(image_files=schiz_train , labels=schiz_train_label, image_only=True, transform=transforms)
@@ -225,5 +225,5 @@ def data_pull_and_load(
         val_ds = val_healthy_ds + val_schiz_ds 
 
         val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
-    
+        print(val_loader)
     return train_ds, train_loader, val_loader
