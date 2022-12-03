@@ -141,25 +141,25 @@ def data_pull_and_load(
         COBRE_healthy_split = int(len(COBRE_healthy) * (1 - test_split))
         COBRE_schiz_split = int(len(COBRE_schiz) * (1 - test_split))
         
-#         healthy_train = np.concatenate((MCIC_healthy[:MCIC_healthy_split], COBRE_healthy[:COBRE_healthy_split]))
-#         schiz_train = np.concatenate((MCIC_schiz[:MCIC_schiz_split], COBRE_schiz[:COBRE_schiz_split]))
-#         healthy_val = np.concatenate((MCIC_healthy[MCIC_healthy_split:], COBRE_healthy[COBRE_healthy_split:]))
-#         schiz_val = np.concatenate((MCIC_schiz[MCIC_schiz_split:], COBRE_schiz[COBRE_schiz_split:]))
+        healthy_train = np.concatenate((MCIC_healthy[:MCIC_healthy_split], COBRE_healthy[:COBRE_healthy_split]))
+        schiz_train = np.concatenate((MCIC_schiz[:MCIC_schiz_split], COBRE_schiz[:COBRE_schiz_split]))
+        healthy_val = np.concatenate((MCIC_healthy[MCIC_healthy_split:], COBRE_healthy[COBRE_healthy_split:]))
+        schiz_val = np.concatenate((MCIC_schiz[MCIC_schiz_split:], COBRE_schiz[COBRE_schiz_split:]))
                       
-#         healthy_train_label = np.concatenate((MCIC_healthy_labels[:MCIC_healthy_split], COBRE_healthy_labels[:COBRE_healthy_split]))
-#         schiz_train_label = np.concatenate((MCIC_schiz_labels[:MCIC_schiz_split], COBRE_schiz_labels[:COBRE_schiz_split]))
-#         healthy_val_label = np.concatenate((MCIC_healthy_labels[MCIC_healthy_split:], COBRE_healthy_labels[COBRE_healthy_split:]))
-#         schiz_val_label = np.concatenate((MCIC_schiz[MCIC_schiz_split:], COBRE_schiz[COBRE_schiz_split:]))
+        healthy_train_label = np.concatenate((MCIC_healthy_labels[:MCIC_healthy_split], COBRE_healthy_labels[:COBRE_healthy_split]))
+        schiz_train_label = np.concatenate((MCIC_schiz_labels[:MCIC_schiz_split], COBRE_schiz_labels[:COBRE_schiz_split]))
+        healthy_val_label = np.concatenate((MCIC_healthy_labels[MCIC_healthy_split:], COBRE_healthy_labels[COBRE_healthy_split:]))
+        schiz_val_label = np.concatenate((MCIC_schiz[MCIC_schiz_split:], COBRE_schiz[COBRE_schiz_split:]))
 
-        healthy_train = np.concatenate((MCIC_healthy[:30], COBRE_healthy[:30]))
-        schiz_train = np.concatenate((MCIC_schiz[:30], COBRE_schiz[:30]))
-        healthy_val = np.concatenate((MCIC_healthy[30:40], COBRE_healthy[30:40]))
-        schiz_val = np.concatenate((MCIC_schiz[30:40], COBRE_schiz[30:40]))
+#         healthy_train = np.concatenate((MCIC_healthy[:30], COBRE_healthy[:30]))
+#         schiz_train = np.concatenate((MCIC_schiz[:30], COBRE_schiz[:30]))
+#         healthy_val = np.concatenate((MCIC_healthy[30:40], COBRE_healthy[30:40]))
+#         schiz_val = np.concatenate((MCIC_schiz[30:40], COBRE_schiz[30:40]))
                       
-        healthy_train_label = np.concatenate((MCIC_healthy_labels[:30], COBRE_healthy_labels[:30]))
-        schiz_train_label = np.concatenate((MCIC_schiz_labels[:30], COBRE_schiz_labels[:30]))
-        healthy_val_label = np.concatenate((MCIC_healthy_labels[30:40], COBRE_healthy_labels[30:40]))
-        schiz_val_label = np.concatenate((MCIC_schiz[30:40], COBRE_schiz[30:40]))
+#         healthy_train_label = np.concatenate((MCIC_healthy_labels[:30], COBRE_healthy_labels[:30]))
+#         schiz_train_label = np.concatenate((MCIC_schiz_labels[:30], COBRE_schiz_labels[:30]))
+#         healthy_val_label = np.concatenate((MCIC_healthy_labels[30:40], COBRE_healthy_labels[30:40]))
+#         schiz_val_label = np.concatenate((MCIC_schiz[30:40], COBRE_schiz[30:40]))
                                      
         train_healthy_ds = ImageDataset(image_files= healthy_train, labels=healthy_train_label, image_only=True, transform=transforms)
         train_schiz_ds = ImageDataset(image_files=schiz_train , labels=schiz_train_label, image_only=True, transform=transforms)
@@ -170,10 +170,10 @@ def data_pull_and_load(
         # print(type(im2), im2.shape, label2, label2.shape)
 
         # create a validation data loader
-        val_healthy_ds = ImageDataset(image_files=healthy_val, labels=healthy_val_label, image_only=True, transform=transforms)
-        val_schiz_ds = ImageDataset(image_files=schiz_val, labels=schiz_val_label, image_only=True,  transform=transforms)
+        val_healthy_ds = ImageDataset(image_files= healthy_val, labels=healthy_val_label, image_only=True, transform=transforms)
+        val_schiz_ds = ImageDataset(image_files=schiz_val, labels=schiz_val_label, image_only=True, transform=transforms)
         val_ds = val_healthy_ds + val_schiz_ds 
-
+        
         val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
     
                                            
