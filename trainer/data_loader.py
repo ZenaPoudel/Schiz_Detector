@@ -170,14 +170,11 @@ def data_pull_and_load(
         # print(type(im2), im2.shape, label2, label2.shape)
 
         # create a validation data loader
-        val_healthy_ds = ImageDataset(image_files= healthy_val, labels=healthy_val_label, image_only=True, transform=transforms)
-        val_schiz_ds = ImageDataset(image_files=schiz_val, labels=schiz_val_label, image_only=True, transform=transforms)
+        val_healthy_ds = ImageDataset(image_files=healthy_val, labels=healthy_val_label, image_only=True, transform=transforms)
+        val_schiz_ds = ImageDataset(image_files=schiz_val, labels=schiz_val_label, image_only=True,  transform=transforms)
         val_ds = val_healthy_ds + val_schiz_ds 
-        
+
         val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
-    
-                                           
-        
     else:
         healthy_subjects = []
         schiz_subjects = []
@@ -225,5 +222,5 @@ def data_pull_and_load(
         val_ds = val_healthy_ds + val_schiz_ds 
 
         val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
-        print(val_loader)
+    print(val_loader)
     return train_ds, train_loader, val_loader
