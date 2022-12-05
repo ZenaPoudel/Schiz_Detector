@@ -149,7 +149,7 @@ def data_pull_and_load(
         healthy_train_label = np.concatenate((MCIC_healthy_labels[:MCIC_healthy_split], COBRE_healthy_labels[:COBRE_healthy_split]))
         schiz_train_label = np.concatenate((MCIC_schiz_labels[:MCIC_schiz_split], COBRE_schiz_labels[:COBRE_schiz_split]))
         healthy_val_label = np.concatenate((MCIC_healthy_labels[MCIC_healthy_split:], COBRE_healthy_labels[COBRE_healthy_split:]))
-        schiz_val_label = np.concatenate((MCIC_schiz[MCIC_schiz_split:], COBRE_schiz[COBRE_schiz_split:]))
+        schiz_val_label = np.concatenate((MCIC_schiz_labels[MCIC_schiz_split:], COBRE_schiz_labels[COBRE_schiz_split:]))
 
 #         healthy_train = np.concatenate((MCIC_healthy[:30], COBRE_healthy[:30]))
 #         schiz_train = np.concatenate((MCIC_schiz[:30], COBRE_schiz[:30]))
