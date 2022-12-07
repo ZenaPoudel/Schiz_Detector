@@ -14,7 +14,7 @@ device = torch.device("cuda" ) if torch.cuda.is_available() else "cpu"
 
 def main():
 	parser = argparse.ArgumentParser(description='Base_paper 1 3D convolution for action recognition')
-	parser.add_argument('--batch', type=int, default=8)
+	parser.add_argument('--batch_size', type=int, default=8)
 	parser.add_argument('--epoch', type=int, default=50)
 	parser.add_argument('--learning_rate', type=float, default=0.0001)
 	parser.add_argument('--dropout', type=float, default=0.3)
@@ -24,7 +24,7 @@ def main():
 	parser.add_argument('--pix_dimension', type=int, default=[2,2,2])    
 	parser.add_argument('--resize_spatial_size', type=int, default=[99,99,99])
 	parser.add_argument('--test_split', type=float, default=0.3)
-	parser.add_argument('--batch_size', type=int, default=8)
+	parser.add_argument('--ratio', type=str, default='NO')
 
 	args = parser.parse_args()
 	train_ds, train_loader, val_loader = data_pull_and_load(
@@ -33,7 +33,8 @@ def main():
 	      pix_dimension=(args.pix_dimension[0], args.pix_dimension[1], args.pix_dimension[2]), 
 	      resize_spatial_size=(args.resize_spatial_size[0], args.resize_spatial_size[1], args.resize_spatial_size[2]),
 	      test_split=args.test_split,
-	      batch_size=args.batch_size  
+	      batch_size=args.batch_size,
+	      ratio=args.ratio
 	  )
 	model = model_3DCNN(dropout = args.dropout)
 
