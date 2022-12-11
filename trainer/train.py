@@ -33,8 +33,7 @@ def main():
 	      pix_dimension=(args.pix_dimension[0], args.pix_dimension[1], args.pix_dimension[2]), 
 	      resize_spatial_size=(args.resize_spatial_size[0], args.resize_spatial_size[1], args.resize_spatial_size[2]),
 	      test_split=args.test_split,
-	      batch_size=args.batch_size,
-	      ratio=args.ratio
+	      batch_size=args.batch_size
 	  )
 	model = model_3DCNN(dropout = args.dropout)
 
