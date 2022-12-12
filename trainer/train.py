@@ -22,16 +22,17 @@ def main():
 	parser.add_argument('--data_source', type=str, default='MCIC')
 	parser.add_argument('--mri_type', type=str, default='T1')
 	parser.add_argument('--pix_dimension', type=int, default=[2,2,2])    
-	parser.add_argument('--resize_spatial_size', type=int, default=[99,99,99])
+	parser.add_argument('--resize_spatial_size', type=str, default='99,99,99')
 	parser.add_argument('--test_split', type=float, default=0.3)
 	parser.add_argument('--ratio', type=str, default='NO')
 
 	args = parser.parse_args()
+	resize_spatial_size = [int(item) for item in args.resize_spatial_size.split(',')]
 	train_ds, train_loader, val_loader = data_pull_and_load(
 	      data_source= args.data_source, 
 	      mri_type = args.mri_type, 
 	      pix_dimension=(args.pix_dimension[0], args.pix_dimension[1], args.pix_dimension[2]), 
-	      resize_spatial_size=(args.resize_spatial_size[0], args.resize_spatial_size[1], args.resize_spatial_size[2]),
+	      resize_spatial_size=(resize_spatial_size[0], resize_spatial_size[1], resize_spatial_size[2]),
 	      test_split=args.test_split,
 	      batch_size=args.batch_size
 	  )
@@ -202,7 +203,7 @@ def main():
 				# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
 				print("saved new validation best metric model")
 
-			print(f"val accuracy: {epoch_val_accuracy:.4f}, val precision: { epoch_val_precision:.4f}, val recall: {epoch_val_recall:.4f}, val F1: {epoch_val_F1:.4f}")
+			print(f"val accuracy: {epoch_val_accuracy:.4f}, val precision: { epoch_val_precision.item():.4f}, val recall: {epoch_val_recall.item():.4f}, val F1: {epoch_val_F1:.4f}")
 			print(f"Best validation F1 score: {best_metric:.4f} at epoch {best_metric_epoch}")
 		# # writer.add_scalar("val_accuracy", metric, epoch + 1)
 
