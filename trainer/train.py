@@ -91,7 +91,7 @@ def main():
 			labels = torch.from_numpy(label)
 			labels = labels.float().to(device)
 			
-			print(labels, outputs)
+# 			print(labels, outputs)
 
 			loss = loss_function(outputs, labels)
 			loss.backward()
@@ -120,12 +120,14 @@ def main():
 			recall.update((outputs.argmax(dim=1), labe))
 			batch_recall = recall.compute()
 			epoch_train_recall += batch_recall
+			print(batch_recall)
 
 			batch_F1 = (batch_precision * batch_recall * 2 / (batch_precision + batch_recall))
 			if batch_F1!=batch_F1:
 				batch_F1 = 0
 			else: 
 				batch_F1 =batch_F1
+			print(batch_F1)
 
 			epoch_train_F1 += batch_F1
 
