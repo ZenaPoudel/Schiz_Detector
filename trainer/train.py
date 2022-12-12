@@ -99,35 +99,37 @@ def main():
 			epoch_loss += loss.item()
 			epoch_len = len(train_ds) // train_loader.batch_size
 			
-			print(train loss: {"loss.item():.4f}")
+# 			print(f"train loss: {loss.item():.4f}")
 
-# 			accuracy = Accuracy()
-# 			accuracy.reset()
-# 			accuracy.update((outputs.argmax(dim=1), labe))
-# 			batch_acc = accuracy.compute()
-# 			epoch_train_accuracy += batch_acc
+			accuracy = Accuracy()
+			accuracy.reset()
+			accuracy.update((outputs.argmax(dim=1), labe))
+			batch_acc = accuracy.compute()
+			epoch_train_accuracy += batch_acc
 
-# 			precision = Precision()
-# 			precision.reset()
-# 			precision.update((outputs.argmax(dim=1), labe))
-# 			batch_precision = precision.compute()
-# 			epoch_train_precision += batch_precision
+			precision = Precision()
+			precision.reset()
+			precision.update((outputs.argmax(dim=1), labe))
+			batch_precision = precision.compute()
+			epoch_train_precision += batch_precision
+			
+			print(batch_precision)
 
-# 			recall = Recall()
-# 			recall.reset()
-# 			recall.update((outputs.argmax(dim=1), labe))
-# 			batch_recall = recall.compute()
-# 			epoch_train_recall += batch_recall
+			recall = Recall()
+			recall.reset()
+			recall.update((outputs.argmax(dim=1), labe))
+			batch_recall = recall.compute()
+			epoch_train_recall += batch_recall
 
-# 			batch_F1 = (batch_precision * batch_recall * 2 / (batch_precision + batch_recall))
-# 			if batch_F1!=batch_F1:
-# 				batch_F1 = 0
-# 			else: 
-# 				batch_F1 =batch_F1
+			batch_F1 = (batch_precision * batch_recall * 2 / (batch_precision + batch_recall))
+			if batch_F1!=batch_F1:
+				batch_F1 = 0
+			else: 
+				batch_F1 =batch_F1
 
-# 			epoch_train_F1 += batch_F1
+			epoch_train_F1 += batch_F1
 
-# 			print(f"{step}/{epoch_len}, train loss: {loss.item():.4f}, train_accuracy: {batch_acc:.4f}, train_precision: {batch_precision:.4f}, train_recall: {batch_recall:.4f}, train_F1: {batch_F1:.4f}")
+# 			print(f"{step}/{epoch_len}, train loss: {loss.item():.4f}, train_accuracy: {batch_acc:.4f}") #, train_precision: {batch_precision:.4f}, train_recall: {batch_recall:.4f}, train_F1: {batch_F1:.4f}")
 
 # 		epoch_loss /= step
 # 		epoch_loss_values.append(epoch_loss)
