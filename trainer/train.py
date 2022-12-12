@@ -140,7 +140,7 @@ def main():
 		epoch_train_recall_values.append(epoch_train_recall)
 		epoch_train_F1 /= step
 		epoch_train_F1_values.append(epoch_train_F1)
-		print(f"epoch {epoch + 1} average loss: {epoch_loss:.4f}, average accuracy: {epoch_train_accuracy:.4f}, average precision: { epoch_train_precision:.4f}, average recall: {epoch_train_recall:.4f}, average F1: {epoch_train_F1:.4f}")
+		print(f"epoch {epoch + 1} average loss: {epoch_loss:.4f}, average accuracy: {epoch_train_accuracy:.4f}, average precision: { epoch_train_precision.item():.4f}, average recall: {epoch_train_recall.item():.4f}, average F1: {epoch_train_F1:.4f}")
 
 
 		if epoch_train_F1 > train_best_metric:
@@ -182,10 +182,10 @@ def main():
 					if val_batch_F1!=val_batch_F1:
 						val_batch_F1 = 0
 					else: 
-						val_batch_F1 =val_batch_F1
+						val_batch_F1 =val_batch_F1.item()
 
 					epoch_val_F1 += val_batch_F1
-					print(f"{val_step}, val_accuracy: {val_batch_acc:.4f}, val_precision: {val_batch_precision:.4f}, val_recall: {val_batch_recall:.4f}, val_F1: {val_batch_F1:.4f}")
+					print(f"{val_step}, val_accuracy: {val_batch_acc:.4f}, val_precision: {val_batch_precision.item():.4f}, val_recall: {val_batch_recall.item():.4f}, val_F1: {val_batch_F1:.4f}")
 
 			epoch_val_accuracy /= val_step
 			epoch_val_accuracy_values.append(epoch_val_accuracy)
