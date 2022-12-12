@@ -99,7 +99,7 @@ def main():
 			epoch_loss += loss.item()
 			epoch_len = len(train_ds) // train_loader.batch_size
 			
-			print(train loss: {loss.item():.4f})
+			print(train loss: {"loss.item():.4f}")
 
 # 			accuracy = Accuracy()
 # 			accuracy.reset()
