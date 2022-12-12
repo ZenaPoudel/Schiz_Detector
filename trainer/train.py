@@ -91,13 +91,15 @@ def main():
 			labels = torch.from_numpy(label)
 			labels = labels.float().to(device)
 			
-			print(labels)
+			print(labels, outputs)
 
-# 			loss = loss_function(outputs, labels)
-# 			loss.backward()
-# 			optimizer.step()
-# 			epoch_loss += loss.item()
-# 			epoch_len = len(train_ds) // train_loader.batch_size
+			loss = loss_function(outputs, labels)
+			loss.backward()
+			optimizer.step()
+			epoch_loss += loss.item()
+			epoch_len = len(train_ds) // train_loader.batch_size
+			
+			print(train loss: {loss.item():.4f})
 
 # 			accuracy = Accuracy()
 # 			accuracy.reset()
