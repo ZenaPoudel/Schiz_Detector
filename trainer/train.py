@@ -90,149 +90,151 @@ def main():
 			label = np.array(labels)
 			labels = torch.from_numpy(label)
 			labels = labels.float().to(device)
+			
+			print(labels)
 
-			loss = loss_function(outputs, labels)
-			loss.backward()
-			optimizer.step()
-			epoch_loss += loss.item()
-			epoch_len = len(train_ds) // train_loader.batch_size
+# 			loss = loss_function(outputs, labels)
+# 			loss.backward()
+# 			optimizer.step()
+# 			epoch_loss += loss.item()
+# 			epoch_len = len(train_ds) // train_loader.batch_size
 
-			accuracy = Accuracy()
-			accuracy.reset()
-			accuracy.update((outputs.argmax(dim=1), labe))
-			batch_acc = accuracy.compute()
-			epoch_train_accuracy += batch_acc
+# 			accuracy = Accuracy()
+# 			accuracy.reset()
+# 			accuracy.update((outputs.argmax(dim=1), labe))
+# 			batch_acc = accuracy.compute()
+# 			epoch_train_accuracy += batch_acc
 
-			precision = Precision()
-			precision.reset()
-			precision.update((outputs.argmax(dim=1), labe))
-			batch_precision = precision.compute()
-			epoch_train_precision += batch_precision
+# 			precision = Precision()
+# 			precision.reset()
+# 			precision.update((outputs.argmax(dim=1), labe))
+# 			batch_precision = precision.compute()
+# 			epoch_train_precision += batch_precision
 
-			recall = Recall()
-			recall.reset()
-			recall.update((outputs.argmax(dim=1), labe))
-			batch_recall = recall.compute()
-			epoch_train_recall += batch_recall
+# 			recall = Recall()
+# 			recall.reset()
+# 			recall.update((outputs.argmax(dim=1), labe))
+# 			batch_recall = recall.compute()
+# 			epoch_train_recall += batch_recall
 
-			batch_F1 = (batch_precision * batch_recall * 2 / (batch_precision + batch_recall))
-			if batch_F1!=batch_F1:
-				batch_F1 = 0
-			else: 
-				batch_F1 =batch_F1
+# 			batch_F1 = (batch_precision * batch_recall * 2 / (batch_precision + batch_recall))
+# 			if batch_F1!=batch_F1:
+# 				batch_F1 = 0
+# 			else: 
+# 				batch_F1 =batch_F1
 
-			epoch_train_F1 += batch_F1
+# 			epoch_train_F1 += batch_F1
 
-			print(f"{step}/{epoch_len}, train loss: {loss.item():.4f}, train_accuracy: {batch_acc:.4f}, train_precision: {batch_precision:.4f}, train_recall: {batch_recall:.4f}, train_F1: {batch_F1:.4f}")
+# 			print(f"{step}/{epoch_len}, train loss: {loss.item():.4f}, train_accuracy: {batch_acc:.4f}, train_precision: {batch_precision:.4f}, train_recall: {batch_recall:.4f}, train_F1: {batch_F1:.4f}")
 
-		epoch_loss /= step
-		epoch_loss_values.append(epoch_loss)
-		epoch_train_accuracy /= step
-		epoch_train_accuracy_values.append(epoch_train_accuracy)
-		epoch_train_precision /= step
-		epoch_train_precision_values.append(epoch_train_precision)
-		epoch_train_recall /= step
-		epoch_train_recall_values.append(epoch_train_recall)
-		epoch_train_F1 /= step
-		epoch_train_F1_values.append(epoch_train_F1)
-		print(f"epoch {epoch + 1} average loss: {epoch_loss:.4f}, average accuracy: {epoch_train_accuracy:.4f}, average precision: { epoch_train_precision:.4f}, average recall: {epoch_train_recall:.4f}, average F1: {epoch_train_F1:.4f}")
-
-
-		if epoch_train_F1 > train_best_metric:
-			train_best_metric = epoch_train_F1
-			train_best_metric_epoch = epoch + 1
-			# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
-			# print("saved new training best metric model")
-		print(f"Best train F1 score: {train_best_metric:.4f} at epoch {train_best_metric_epoch}")
-
-		if (epoch + 1) % val_interval == 0:
-			model.eval()
-			num_correct = 0.0
-			metric_count = 0
-			val_step = 0
-			for val_data in val_loader:
-				val_step +=1
-				val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
-				with torch.no_grad():
-					val_outputs = model(val_images)
-					val_accuracy = Accuracy()
-					val_accuracy.reset()
-					val_accuracy.update((val_outputs, val_labels))
-					val_batch_acc = val_accuracy.compute()
-					epoch_val_accuracy += val_batch_acc
-
-					val_precision = Precision()
-					val_precision.reset()
-					val_precision.update((val_outputs.argmax(dim=1), val_labels))
-					val_batch_precision = val_precision.compute()
-					epoch_val_precision += val_batch_precision
-
-					val_recall = Recall()
-					val_recall.reset()
-					val_recall.update((val_outputs.argmax(dim=1), val_labels))
-					val_batch_recall = val_recall.compute()
-					epoch_val_recall += val_batch_recall
-
-					val_batch_F1 = (val_batch_precision * val_batch_recall * 2 / (val_batch_precision + val_batch_recall))
-					if val_batch_F1!=val_batch_F1:
-						val_batch_F1 = 0
-					else: 
-						val_batch_F1 =val_batch_F1
-
-					epoch_val_F1 += val_batch_F1
-					print(f"{val_step}, val_accuracy: {val_batch_acc:.4f}, val_precision: {val_batch_precision:.4f}, val_recall: {val_batch_recall:.4f}, val_F1: {val_batch_F1:.4f}")
-
-			epoch_val_accuracy /= val_step
-			epoch_val_accuracy_values.append(epoch_val_accuracy)
-			epoch_val_precision /= val_step
-			epoch_val_precision_values.append(epoch_val_precision)
-			epoch_val_recall /= val_step
-			epoch_val_recall_values.append(epoch_val_recall)
-			epoch_val_F1 /= val_step
-			epoch_val_F1_values.append(epoch_val_F1)
-
-			if epoch_val_F1 > best_metric:
-				best_metric = epoch_val_F1
-				best_metric_epoch = epoch + 1
-				# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
-				print("saved new validation best metric model")
-
-			print(f"val accuracy: {epoch_val_accuracy:.4f}, val precision: { epoch_val_precision:.4f}, val recall: {epoch_val_recall:.4f}, val F1: {epoch_val_F1:.4f}")
-			print(f"Best validation F1 score: {best_metric:.4f} at epoch {best_metric_epoch}")
-		# # writer.add_scalar("val_accuracy", metric, epoch + 1)
-
-	print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
+# 		epoch_loss /= step
+# 		epoch_loss_values.append(epoch_loss)
+# 		epoch_train_accuracy /= step
+# 		epoch_train_accuracy_values.append(epoch_train_accuracy)
+# 		epoch_train_precision /= step
+# 		epoch_train_precision_values.append(epoch_train_precision)
+# 		epoch_train_recall /= step
+# 		epoch_train_recall_values.append(epoch_train_recall)
+# 		epoch_train_F1 /= step
+# 		epoch_train_F1_values.append(epoch_train_F1)
+# 		print(f"epoch {epoch + 1} average loss: {epoch_loss:.4f}, average accuracy: {epoch_train_accuracy:.4f}, average precision: { epoch_train_precision:.4f}, average recall: {epoch_train_recall:.4f}, average F1: {epoch_train_F1:.4f}")
 
 
-	plt.figure('train', (12,6))
-	plt.subplot(1,2,1)
-	plt.title("Epoch Average Loss")
-	x = [i+1 for i in range(len(epoch_loss_values))]
-	y = epoch_loss_values
-	x1 = [i+1 for i in range(len(epoch_train_accuracy_values))]
-	y1 = epoch_train_accuracy_values
-	x2 = [i+1 for i in range(len(epoch_train_F1_values))]
-	y2 = epoch_train_F1_values
+# 		if epoch_train_F1 > train_best_metric:
+# 			train_best_metric = epoch_train_F1
+# 			train_best_metric_epoch = epoch + 1
+# 			# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+# 			# print("saved new training best metric model")
+# 		print(f"Best train F1 score: {train_best_metric:.4f} at epoch {train_best_metric_epoch}")
+
+# 		if (epoch + 1) % val_interval == 0:
+# 			model.eval()
+# 			num_correct = 0.0
+# 			metric_count = 0
+# 			val_step = 0
+# 			for val_data in val_loader:
+# 				val_step +=1
+# 				val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
+# 				with torch.no_grad():
+# 					val_outputs = model(val_images)
+# 					val_accuracy = Accuracy()
+# 					val_accuracy.reset()
+# 					val_accuracy.update((val_outputs, val_labels))
+# 					val_batch_acc = val_accuracy.compute()
+# 					epoch_val_accuracy += val_batch_acc
+
+# 					val_precision = Precision()
+# 					val_precision.reset()
+# 					val_precision.update((val_outputs.argmax(dim=1), val_labels))
+# 					val_batch_precision = val_precision.compute()
+# 					epoch_val_precision += val_batch_precision
+
+# 					val_recall = Recall()
+# 					val_recall.reset()
+# 					val_recall.update((val_outputs.argmax(dim=1), val_labels))
+# 					val_batch_recall = val_recall.compute()
+# 					epoch_val_recall += val_batch_recall
+
+# 					val_batch_F1 = (val_batch_precision * val_batch_recall * 2 / (val_batch_precision + val_batch_recall))
+# 					if val_batch_F1!=val_batch_F1:
+# 						val_batch_F1 = 0
+# 					else: 
+# 						val_batch_F1 =val_batch_F1
+
+# 					epoch_val_F1 += val_batch_F1
+# 					print(f"{val_step}, val_accuracy: {val_batch_acc:.4f}, val_precision: {val_batch_precision:.4f}, val_recall: {val_batch_recall:.4f}, val_F1: {val_batch_F1:.4f}")
+
+# 			epoch_val_accuracy /= val_step
+# 			epoch_val_accuracy_values.append(epoch_val_accuracy)
+# 			epoch_val_precision /= val_step
+# 			epoch_val_precision_values.append(epoch_val_precision)
+# 			epoch_val_recall /= val_step
+# 			epoch_val_recall_values.append(epoch_val_recall)
+# 			epoch_val_F1 /= val_step
+# 			epoch_val_F1_values.append(epoch_val_F1)
+
+# 			if epoch_val_F1 > best_metric:
+# 				best_metric = epoch_val_F1
+# 				best_metric_epoch = epoch + 1
+# 				# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+# 				print("saved new validation best metric model")
+
+# 			print(f"val accuracy: {epoch_val_accuracy:.4f}, val precision: { epoch_val_precision:.4f}, val recall: {epoch_val_recall:.4f}, val F1: {epoch_val_F1:.4f}")
+# 			print(f"Best validation F1 score: {best_metric:.4f} at epoch {best_metric_epoch}")
+# 		# # writer.add_scalar("val_accuracy", metric, epoch + 1)
+
+# 	print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
+
+
+# 	plt.figure('train', (12,6))
+# 	plt.subplot(1,2,1)
+# 	plt.title("Epoch Average Loss")
+# 	x = [i+1 for i in range(len(epoch_loss_values))]
+# 	y = epoch_loss_values
+# 	x1 = [i+1 for i in range(len(epoch_train_accuracy_values))]
+# 	y1 = epoch_train_accuracy_values
+# 	x2 = [i+1 for i in range(len(epoch_train_F1_values))]
+# 	y2 = epoch_train_F1_values
 	
-	x3 = [(i+1) for i in range(len(epoch_val_accuracy_values))]
-	y3 = epoch_val_accuracy_values
-	x4 = [i+1 for i in range(len(epoch_val_F1_values))]
-	y4 = epoch_train_F1_values
+# 	x3 = [(i+1) for i in range(len(epoch_val_accuracy_values))]
+# 	y3 = epoch_val_accuracy_values
+# 	x4 = [i+1 for i in range(len(epoch_val_F1_values))]
+# 	y4 = epoch_train_F1_values
 	
-	plt.plot(x, y, label='Training Loss')
+# 	plt.plot(x, y, label='Training Loss')
 	
-	plt.plot(x1,y1, label='Training Accuracy')
+# 	plt.plot(x1,y1, label='Training Accuracy')
 
-	plt.plot(x2, y2, label='Training F1 score')
+# 	plt.plot(x2, y2, label='Training F1 score')
 	
-	plt.plot(x3, y3, label='Validation Accuracy')
+# 	plt.plot(x3, y3, label='Validation Accuracy')
 	
-	plt.plot(x4, y4, label='epoch_train_F1_values')
+# 	plt.plot(x4, y4, label='epoch_train_F1_values')
 	
-	plt.title('Training and Validation Accurccy')
+# 	plt.title('Training and Validation Accurccy')
 
-	plt.legend(loc='upper right')
-	plt.savefig('TrainingandValidationAccurccy.png')
+# 	plt.legend(loc='upper right')
+# 	plt.savefig('TrainingandValidationAccurccy.png')
 
 
 if __name__ == '__main__':
