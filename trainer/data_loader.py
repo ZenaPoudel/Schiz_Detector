@@ -236,6 +236,19 @@ def data_pull_and_load(
         cobre_participants = pd.read_csv(cobre_tsv_path,sep='\t')
         same_subject_and_run_t1_t2_path= []
         
+        MCIC_healthy_subjects = []
+        MCIC_schiz_subjects = []
+#         COBRE_healthy_subjects = []
+#         COBRE_schiz_subjects = []
+        mcic_participants['diagnosis'] = np.where(mcic_participants['dx']== 'No_Known_Disorder', 0, 1)
+        # cobre_participants['diagnosis'] = np.where(cobre_participants['dx']== 'No_Known_Disorder', 0, 1)
+
+        for index, row in mcic_participants.iterrows():
+            if (row['diagnosis'] == 1):
+                MCIC_schiz_subjects.append(row['participant_id'])
+            else:
+                MCIC_healthy_subjects.append(row['participant_id'])
+                
         for i in mcic_t1_file:
             t1_subject = i.split('/')[7]
             t1_run = i.split('/')[-1].split('_')[-2]
