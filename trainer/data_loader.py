@@ -287,15 +287,16 @@ def data_pull_and_load(
                 T2 = transforms(M2)
                 healthy_ratio = T1/T2
 
-                MCIC_ratio_healthy.append(healthy_ratio)
-                MCIC_healthy_labels.append(0)
+                MCIC_ratio_healthy.append(torch.tensor(healthy_ratio))
+                MCIC_healthy_labels.append(torch.tensor(0))
 
             for M1,M2 in MCIC_t1_t2_schiz:
                 T1 = transforms(M1)
                 T2 = transforms(M2)
                 schiz_ratio = T1/T2
-                MCIC_ratio_schiz.append(schiz_ratio)
-                MCIC_schiz_labels.append(1)
+                
+                MCIC_ratio_schiz.append(torch.tensor(schiz_ratio))
+                MCIC_schiz_labels.append(torch.tensor(1))
 
             healthy_split = int(len(MCIC_ratio_healthy) * (1 - test_split))
             schiz_split = int(len(MCIC_ratio_schiz) * (1 - test_split))
