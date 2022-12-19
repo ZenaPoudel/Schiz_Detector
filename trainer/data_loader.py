@@ -19,7 +19,7 @@ import torch
 import monai
 from monai.apps import download_and_extract
 from monai.config import print_config
-from monai.data import DataLoader, ImageDataset
+from monai.data import DataLoader, ImageDataset, ArrayDataset
 from monai.transforms import (
     EnsureChannelFirst,
     Compose,
