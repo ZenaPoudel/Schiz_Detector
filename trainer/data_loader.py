@@ -281,28 +281,38 @@ def data_pull_and_load(
             transforms = Compose([LoadImage(image_only=True), ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=(2,2,2)), ResizeWithPadOrCrop(spatial_size=((99,99,99)))])
             MCIC_ratio_healthy = []
             MCIC_ratio_schiz = []
+            for M1,M2 in MCIC_t1_t2_healthy[:24]:
+            T1 = transforms(M1)
+            T2 = transforms(M2)
+            healthy_ratio = T1/T2
+            healthy_ratio[healthy_ratio!=healthy_ratio] = 1
+            healthy_ratio[healthy_ratio==0] = 1
+            healthy_ratio=ScaleIntensity()(healthy_ratio)
+            MCIC_ratio_healthy.append(healthy_ratio)
+            MCIC_healthy_labels.append(0)
 
-            for M1,M2 in MCIC_t1_t2_healthy:
-                T1 = transforms(M1)
-                T2 = transforms(M2)
-                healthy_ratio = T1/T2
-                healthy_ratio[healthy_ratio!=healthy_ratio] = 0
+            for M1,M2 in MCIC_t1_t2_schiz[:24]:
+            T1 = transforms(M1)
+            T2 = transforms(M2)
+            schiz_ratio = T1/T2
+            schiz_ratio[schiz_ratio!=schiz_ratio] = 1
+            schiz_ratio[schiz_ratio==0] = 1
+            schiz_ratio=ScaleIntensity()(schiz_ratio)
+            MCIC_ratio_schiz.append(schiz_ratio)
+            MCIC_schiz_labels.append(1)
 
-                MCIC_ratio_healthy.append(torch.tensor(healthy_ratio))
-                MCIC_healthy_labels.append(torch.tensor(0))
-
-            for M1,M2 in MCIC_t1_t2_schiz:
-                T1 = transforms(M1)
-                T2 = transforms(M2)
-                schiz_ratio = T1/T2
-                schiz_ratio[schiz_ratio!=schiz_ratio] = 0
-                
-                MCIC_ratio_schiz.append(torch.tensor(schiz_ratio))
-                MCIC_schiz_labels.append(torch.tensor(1))
 
             healthy_split = int(len(MCIC_ratio_healthy) * (1 - test_split))
             schiz_split = int(len(MCIC_ratio_schiz) * (1 - test_split))
-
+            def my_collate(batch):
+                """Define collate_fn myself because the default_collate_fn throws errors like crazy"""
+                # item: a tuple of (img, label)
+                data = [item[0] for item in batch]
+                target = [item[1] for item in batch]
+                data = torch.stack(data)
+                target = torch.LongTensor(target)
+                return [data, target]
+            
             train_healthy_ds= ArrayDataset(MCIC_ratio_healthy[:healthy_split], labels=MCIC_healthy_labels[:healthy_split])
             train_schiz_ds = ArrayDataset(MCIC_ratio_schiz[:schiz_split],labels=MCIC_schiz_labels[:schiz_split])
 
@@ -311,7 +321,7 @@ def data_pull_and_load(
             # print(train_healthy_ds[1][10])
             train_ds =train_healthy_ds+train_schiz_ds
 
-            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            train_loader = DataLoader(train_ds, batch_size=batch_size, collate_fn = my_collate, shuffle=True, num_workers=2, pin_memory=pin_memory)
 
             # create a validation data loader
             val_healthy_ds= ArrayDataset(MCIC_ratio_healthy[healthy_split:], labels=MCIC_healthy_labels[healthy_split:])
@@ -319,7 +329,7 @@ def data_pull_and_load(
 
             val_ds =val_healthy_ds+val_schiz_ds
 
-            val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            val_loader = DataLoader(val_ds, batch_size=batch_size, collate_fn = my_collate, shuffle=True, num_workers=2, pin_memory=pin_memory)
 
         elif ratio=='channel':
             for M1,M2 in same_subject_and_run_t1_t2_path:
