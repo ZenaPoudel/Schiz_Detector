@@ -286,6 +286,7 @@ def data_pull_and_load(
                 T1 = transforms(M1)
                 T2 = transforms(M2)
                 healthy_ratio = T1/T2
+                healthy_ratio[healthy_ratio!=healthy_ratio] = 0
 
                 MCIC_ratio_healthy.append(torch.tensor(healthy_ratio))
                 MCIC_healthy_labels.append(torch.tensor(0))
@@ -294,6 +295,7 @@ def data_pull_and_load(
                 T1 = transforms(M1)
                 T2 = transforms(M2)
                 schiz_ratio = T1/T2
+                schiz_ratio[schiz_ratio!=schiz_ratio] = 0
                 
                 MCIC_ratio_schiz.append(torch.tensor(schiz_ratio))
                 MCIC_schiz_labels.append(torch.tensor(1))
