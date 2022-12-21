@@ -282,24 +282,24 @@ def data_pull_and_load(
             MCIC_ratio_healthy = []
             MCIC_ratio_schiz = []
             for M1,M2 in MCIC_t1_t2_healthy[:24]:
-            T1 = transforms(M1)
-            T2 = transforms(M2)
-            healthy_ratio = T1/T2
-            healthy_ratio[healthy_ratio!=healthy_ratio] = 1
-            healthy_ratio[healthy_ratio==0] = 1
-            healthy_ratio=ScaleIntensity()(healthy_ratio)
-            MCIC_ratio_healthy.append(healthy_ratio)
-            MCIC_healthy_labels.append(0)
+                T1 = transforms(M1)
+                T2 = transforms(M2)
+                healthy_ratio = T1/T2
+                healthy_ratio[healthy_ratio!=healthy_ratio] = 1
+                healthy_ratio[healthy_ratio==0] = 1
+                healthy_ratio=ScaleIntensity()(healthy_ratio)
+                MCIC_ratio_healthy.append(healthy_ratio)
+                MCIC_healthy_labels.append(0)
 
             for M1,M2 in MCIC_t1_t2_schiz[:24]:
-            T1 = transforms(M1)
-            T2 = transforms(M2)
-            schiz_ratio = T1/T2
-            schiz_ratio[schiz_ratio!=schiz_ratio] = 1
-            schiz_ratio[schiz_ratio==0] = 1
-            schiz_ratio=ScaleIntensity()(schiz_ratio)
-            MCIC_ratio_schiz.append(schiz_ratio)
-            MCIC_schiz_labels.append(1)
+                T1 = transforms(M1)
+                T2 = transforms(M2)
+                schiz_ratio = T1/T2
+                schiz_ratio[schiz_ratio!=schiz_ratio] = 1
+                schiz_ratio[schiz_ratio==0] = 1
+                schiz_ratio=ScaleIntensity()(schiz_ratio)
+                MCIC_ratio_schiz.append(schiz_ratio)
+                MCIC_schiz_labels.append(1)
 
 
             healthy_split = int(len(MCIC_ratio_healthy) * (1 - test_split))
