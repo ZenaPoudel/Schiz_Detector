@@ -254,12 +254,12 @@ def data_pull_and_load(
         for i in mcic_t1_file:
             t1_subject = i.split('/')[7]
 
-        for j in mcic_t2_file:
-            t2_subject = j.split('/')[7]
+            for j in mcic_t2_file:
+                t2_subject = j.split('/')[7]
 
-            if (t1_subject == t2_subject):
-                similar_path = (i, j)
-                same_subject_t1_t2_path.append(similar_path)
+                if (t1_subject == t2_subject):
+                    similar_path = (i, j)
+                    same_subject_t1_t2_path.append(similar_path)
 #         for i in mcic_t1_file:
 #             t1_subject = i.split('/')[7]
 #             t1_run = i.split('/')[-1].split('_')[-2]
