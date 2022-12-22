@@ -249,17 +249,28 @@ def data_pull_and_load(
             else:
                 MCIC_healthy_subjects.append(row['participant_id'])
                 
+        same_subject_t1_t2_path= []
+
         for i in mcic_t1_file:
             t1_subject = i.split('/')[7]
-            t1_run = i.split('/')[-1].split('_')[-2]
 
-            for j in mcic_t2_file:
-                t2_subject = j.split('/')[7]
-                t2_run = j.split('/')[-1].split('_')[-2]
+        for j in mcic_t2_file:
+            t2_subject = j.split('/')[7]
 
-                if ( (t1_subject == t2_subject) and (t1_run == t2_run)): 
-                    similar_path = (i, j)
-                    same_subject_and_run_t1_t2_path.append(similar_path)
+            if (t1_subject == t2_subject):
+                similar_path = (i, j)
+                same_subject_t1_t2_path.append(similar_path)
+#         for i in mcic_t1_file:
+#             t1_subject = i.split('/')[7]
+#             t1_run = i.split('/')[-1].split('_')[-2]
+
+#             for j in mcic_t2_file:
+#                 t2_subject = j.split('/')[7]
+#                 t2_run = j.split('/')[-1].split('_')[-2]
+
+#                 if ( (t1_subject == t2_subject) and (t1_run == t2_run)): 
+#                     similar_path = (i, j)
+#                     same_subject_and_run_t1_t2_path.append(similar_path)
         MCIC_t1_t2_healthy = []
         MCIC_t1_t2_schiz = []
         MCIC_healthy_labels= []
@@ -271,7 +282,7 @@ def data_pull_and_load(
 #             COBRE_schiz_labels = []      
 
         if ratio=='Yes':
-            for M1,M2 in same_subject_and_run_t1_t2_path:
+            for M1,M2 in same_subject_t1_t2_path:
                 if (any(ele in M1 for ele in MCIC_healthy_subjects)):
                     MCIC_t1_t2_healthy.append((M1,M2))
 
