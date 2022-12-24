@@ -125,8 +125,6 @@ class TwoImageDataset(Dataset, Randomizable):
         #         seg = apply_transform(self.seg_transform, seg, map_items=False)
 
         if self.labels is not None:
-            print(index)
-            print(len(self.labels))
             label = self.labels[index]
             if self.label_transform is not None:
                 label = apply_transform(self.label_transform, label, map_items=False)  # type: ignore
