@@ -364,5 +364,5 @@ def data_pull_and_load(
             val_schiz_ds = TwoImageDataset(image_files=MCIC_t1_t2_schiz[schiz_split:], labels=MCIC_schiz_labels[schiz_split:], transform=transforms, image_only=True)
             val_ds = val_healthy_ds + val_schiz_ds 
             
-            val_loader = DataLoader(train_ds, batch_size=8, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            val_loader = DataLoader(val_ds, batch_size=8, shuffle=True, num_workers=2, pin_memory=pin_memory)
     return train_ds, train_loader, val_loader
