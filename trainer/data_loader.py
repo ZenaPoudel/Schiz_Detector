@@ -33,7 +33,8 @@ from monai.transforms import (
     SpatialResample,
     Lambda,
     AffineGrid,
-    Resample
+    Resample,
+    EnsureType
 )
 
 
@@ -251,26 +252,26 @@ def data_pull_and_load(
                 
         same_subject_t1_t2_path= []
 
-        for i in mcic_t1_file:
-            t1_subject = i.split('/')[7]
-
-            for j in mcic_t2_file:
-                t2_subject = j.split('/')[7]
-
-                if (t1_subject == t2_subject):
-                    similar_path = (i, j)
-                    same_subject_t1_t2_path.append(similar_path)
 #         for i in mcic_t1_file:
 #             t1_subject = i.split('/')[7]
-#             t1_run = i.split('/')[-1].split('_')[-2]
 
 #             for j in mcic_t2_file:
 #                 t2_subject = j.split('/')[7]
-#                 t2_run = j.split('/')[-1].split('_')[-2]
 
-#                 if ( (t1_subject == t2_subject) and (t1_run == t2_run)): 
+#                 if (t1_subject == t2_subject):
 #                     similar_path = (i, j)
-#                     same_subject_and_run_t1_t2_path.append(similar_path)
+#                     same_subject_t1_t2_path.append(similar_path)
+        for i in mcic_t1_file:
+            t1_subject = i.split('/')[7]
+            t1_run = i.split('/')[-1].split('_')[-2]
+
+            for j in mcic_t2_file:
+                t2_subject = j.split('/')[7]
+                t2_run = j.split('/')[-1].split('_')[-2]
+
+                if ( (t1_subject == t2_subject) and (t1_run == t2_run)): 
+                    similar_path = (i, j)
+                    same_subject_and_run_t1_t2_path.append(similar_path)
         MCIC_t1_t2_healthy = []
         MCIC_t1_t2_schiz = []
         MCIC_healthy_labels= []
@@ -280,15 +281,13 @@ def data_pull_and_load(
 #             COBRE_t1_t2_schiz = []
 #             COBRE_healthy_labels = []
 #             COBRE_schiz_labels = []      
-
-        if ratio=='Yes':
-            for M1,M2 in same_subject_t1_t2_path:
+        for M1,M2 in same_subject_and_run_t1_t2_path:
                 if (any(ele in M1 for ele in MCIC_healthy_subjects)):
                     MCIC_t1_t2_healthy.append((M1,M2))
-
                 else:  
                     MCIC_t1_t2_schiz.append((M1,M2))
 
+        if ratio=='Yes':
             transforms = Compose([LoadImage(image_only=True), ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=(2,2,2)), ResizeWithPadOrCrop(spatial_size=((99,99,99)))])
             MCIC_ratio_healthy = []
             MCIC_ratio_schiz = []
@@ -342,16 +341,38 @@ def data_pull_and_load(
             val_loader = DataLoader(val_ds, batch_size=batch_size, collate_fn = my_collate, shuffle=True, num_workers=2, pin_memory=pin_memory)
 
         elif ratio=='channel':
-            for M1,M2 in same_subject_and_run_t1_t2_path:
-                if (any(ele in M1 for ele in MCIC_healthy_subjects)):
-                    MCIC_t1_t2_healthy.append((M1,M2))
-                    MCIC_healthy_labels.append(0)
-                else:  
-                    MCIC_t1_t2_schiz.append((M1,M2))
-                    MCIC_schiz_labels.append(1)
+            transforms = Compose([LoadImage(image_only=True), ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=(2,2,2)), ResizeWithPadOrCrop(spatial_size=((99,99,99))), EnsureType(track_meta=False)])
+            MCIC_channel_healthy = []
+            MCIC_channel_schiz = []
+            for M1,M2 in MCIC_t1_t2_healthy:
+                T1 = transforms(M1)
+                T2 = transforms(M2)
+                Channel=(T1,T2)
+                MCIC_channel_healthy.append(Channel)
+                MCIC_healthy_labels.append(0)
 
-#                 custom dataset
-#                 custom dataloader
-            print('to be done')
+            for M1,M2 in MCIC_t1_t2_schiz:
+                T1 = transforms(M1)
+                T2 = transforms(M2)
+                Channel = (T1,T2)
+                MCIC_channel_schiz.append(Channel)
+                MCIC_schiz_labels.append(1)
+            
+            healthy_split = int(len(MCIC_ratio_healthy) * (1 - test_split))
+            schiz_split = int(len(MCIC_ratio_schiz) * (1 - test_split))
+            
+            train_healthy_ds= ArrayDataset(MCIC_channel_healthy[:healthy_split], labels=MCIC_healthy_labels[:healthy_split])
+            train_schiz_ds = ArrayDataset(MCIC_channel_schiz[:schiz_split],labels=MCIC_schiz_labels[:schiz_split])
+            train_ds =train_healthy_ds+train_schiz_ds
+
+            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+
+            # create a validation data loader
+            val_healthy_ds= ArrayDataset(MCIC_channel_healthy[healthy_split:], labels=MCIC_healthy_labels[healthy_split:])
+            val_schiz_ds = ArrayDataset(MCIC_channel_schiz[schiz_split:],labels=MCIC_schiz_labels[schiz_split:])
+
+            val_ds =val_healthy_ds+val_schiz_ds
+
+            val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
 
     return train_ds, train_loader, val_loader
