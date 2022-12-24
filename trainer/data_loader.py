@@ -351,8 +351,8 @@ def data_pull_and_load(
                     MCIC_t1_t2_schiz.append((M1,M2))
                     MCIC_schiz_labels.append(1)
             transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=(3,3,3)), ResizeWithPadOrCrop(spatial_size=(99,99,99))])            
-            healthy_split = int(len(MCIC_channel_healthy) * (1 - test_split))
-            schiz_split = int(len(MCIC_channel_schiz) * (1 - test_split))
+            healthy_split = int(len(MCIC_t1_t2_healthy) * (1 - test_split))
+            schiz_split = int(len(MCIC_t1_t2_schiz) * (1 - test_split))
             
             train_healthy_ds = TwoImageDataset(image_files=MCIC_t1_t2_healthy[:healthy_split], labels=MCIC_healthy_labels[:healthy_split], transform=transforms, image_only=True)
             train_schiz_ds = TwoImageDataset(image_files=MCIC_t1_t2_schiz[:schiz_split], labels=MCIC_schiz_labels[:schiz_split], transform=transforms, image_only=True)
