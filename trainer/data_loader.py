@@ -358,8 +358,8 @@ def data_pull_and_load(
                 MCIC_channel_schiz.append(Channel)
                 MCIC_schiz_labels.append(1)
             
-            healthy_split = int(len(MCIC_ratio_healthy) * (1 - test_split))
-            schiz_split = int(len(MCIC_ratio_schiz) * (1 - test_split))
+            healthy_split = int(len(MCIC_channel_healthy) * (1 - test_split))
+            schiz_split = int(len(MCIC_channel_schiz) * (1 - test_split))
             
             train_healthy_ds= ArrayDataset(MCIC_channel_healthy[:healthy_split], labels=MCIC_healthy_labels[:healthy_split])
             train_schiz_ds = ArrayDataset(MCIC_channel_schiz[:schiz_split],labels=MCIC_schiz_labels[:schiz_split])
