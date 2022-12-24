@@ -132,7 +132,7 @@ class TwoImageDataset(Dataset, Randomizable):
                 label = apply_transform(self.label_transform, label, map_items=False)  # type: ignore
 
         # construct outputs
-        data = np.stack((img1, img2))
+        data = np.stack((np.squeeze(img1, axis=0), np.squeeze(img2, axis=0)))
         data=[data,label]
         # if seg is not None:
         #     data.append(seg)
