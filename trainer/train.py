@@ -79,7 +79,7 @@ def main():
 		for batch_data in train_loader:
 			step += 1
 			input1, input2, labe = batch_data[0].to(device), batch_data[1].to(device)
-			imputs = (input1,input2)
+			inputs = (input1,input2)
 			optimizer.zero_grad()
 			outputs = model(inputs)
 			labels = []
