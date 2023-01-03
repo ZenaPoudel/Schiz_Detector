@@ -7,6 +7,7 @@ from data_loader import data_pull_and_load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 import json
 import sys
 
@@ -201,7 +202,7 @@ def main():
 			if epoch_val_F1 > best_metric:
 				best_metric = epoch_val_F1
 				best_metric_epoch = epoch + 1
-				# torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+				torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
 				print("saved new validation best metric model")
 
 			print(f"val accuracy: {epoch_val_accuracy:.4f}, val precision: { epoch_val_precision.item():.4f}, val recall: {epoch_val_recall.item():.4f}, val F1: {epoch_val_F1:.4f}")
@@ -210,37 +211,51 @@ def main():
 
 	print(f"Training completed, training best_metric: {train_best_metric:.4f} at epoch: {train_best_metric_epoch}, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
 
+	
+	
 
-	plt.figure('train', (12,6))
+
+	# customizing runtime configuration stored
+	# in matplotlib.rcParams
+	plt.rcParams["figure.figsize"] = [7.00, 3.50]
+	plt.rcParams["figure.autolayout"] = True
+	
+	train_loss_acc = plt.figure('train', (12,6))
 	plt.subplot(1,2,1)
-	plt.title("Epoch Average Loss")
+	plt.title("Epoch Average Loss and accuracy")
 	x = [i+1 for i in range(len(epoch_loss_values))]
 	y = epoch_loss_values
 	x1 = [i+1 for i in range(len(epoch_train_accuracy_values))]
 	y1 = epoch_train_accuracy_values
-	x2 = [i+1 for i in range(len(epoch_train_F1_values))]
-	y2 = epoch_train_F1_values
-	
 	x3 = [(i+1) for i in range(len(epoch_val_accuracy_values))]
 	y3 = epoch_val_accuracy_values
-	x4 = [i+1 for i in range(len(epoch_val_F1_values))]
-	y4 = epoch_train_F1_values
-	
 	plt.plot(x, y, label='Training Loss')
-	
 	plt.plot(x1,y1, label='Training Accuracy')
-
-	plt.plot(x2, y2, label='Training F1 score')
-	
 	plt.plot(x3, y3, label='Validation Accuracy')
-	
-	plt.plot(x4, y4, label='epoch_train_F1_values')
-	
-	plt.title('Training and Validation Accurccy')
+	plt.title('Training loss, Training and Validation Accurccy')
 
 	plt.legend(loc='upper right')
 	plt.savefig('TrainingandValidationAccurccy.png')
+	
+	F1_score = plt.figure('train', (12,6))
+	plt.subplot(1,2,1)
+	plt.title("Epoch Average Loss")
+	
+	x2 = [i+1 for i in range(len(epoch_train_F1_values))]
+	y2 = epoch_train_F1_values
+	
+	x4 = [i+1 for i in range(len(epoch_val_F1_values))]
+	y4 = epoch_val_F1_values
+	
+	
+	plt.plot(x2, y2, label='Training F1 score')
+	plt.plot(x4, y4, label='epoch_train_F1_values')
+	
+	plt.title('Training and Validation F1 score')
 
+	plt.legend(loc='upper right')
+	plt.savefig('TrainingandValidationF1.png')
+	
 
 if __name__ == '__main__':
 	main()
