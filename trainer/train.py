@@ -220,7 +220,7 @@ def main():
 	plt.rcParams["figure.figsize"] = [7.00, 3.50]
 	plt.rcParams["figure.autolayout"] = True
 	
-	train_loss_acc = plt.figure('train', (12,6))
+	train_loss_acc = plt.figure('loss_acc', (12,6))
 	plt.subplot(1,2,1)
 	plt.title("Epoch Average Loss and accuracy")
 	x = [i+1 for i in range(len(epoch_loss_values))]
@@ -237,7 +237,7 @@ def main():
 	plt.legend(loc='upper right')
 	plt.savefig('TrainingandValidationAccurccy.png')
 	
-	F1_score = plt.figure('train', (12,6))
+	F1_score = plt.figure('F1', (12,6))
 	plt.subplot(1,2,1)
 	plt.title("Epoch Average Loss")
 	
