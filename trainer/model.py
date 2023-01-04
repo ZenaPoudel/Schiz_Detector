@@ -1,7 +1,14 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import torch
+random_seed = 1 # or any of your favorite number 
+torch.manual_seed(random_seed)
+torch.cuda.manual_seed(random_seed)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+import numpy as np
+np.random.seed(random_seed)
 
 def model_3DCNN (dropout=0.3):
     '''
