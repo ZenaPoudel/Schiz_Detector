@@ -50,6 +50,14 @@ def data_pull_and_load(
     test_split=0.3,
     batch_size=8,
     ratio='NO'):
+    def seed_worker(worker_id):
+        worker_seed = torch.initial_seed() % 2**32
+        numpy.random.seed(worker_seed)
+        random.seed(worker_seed)
+
+    g = torch.Generator()
+    g.manual_seed(0)
+    
     if ratio == 'NO':
         if data_source == 'MCIC':
             if mri_type == 'T1':
@@ -168,7 +176,7 @@ def data_pull_and_load(
             train_schiz_ds = ImageDataset(image_files=schiz_train , labels=schiz_train_label, image_only=True, transform=transforms)
             train_ds = train_healthy_ds + train_schiz_ds 
 
-            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2,worker_init_fn=seed_worker, generator=g, pin_memory=pin_memory)
             # im2, label2 = monai.utils.misc.first(train_loader)
             # print(type(im2), im2.shape, label2, label2.shape)
 
@@ -215,7 +223,7 @@ def data_pull_and_load(
             train_ds = train_healthy_ds + train_schiz_ds 
             # type(train_ds) 
 
-            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=2, worker_init_fn=seed_worker, generator=g, pin_memory=pin_memory)
             # im2, label2 = monai.utils.misc.first(train_loader)
             # print(type(im2), im2.shape, label2, label2.shape)
 
@@ -332,7 +340,7 @@ def data_pull_and_load(
             # print(train_healthy_ds[1][10])
             train_ds =train_healthy_ds+train_schiz_ds
 
-            train_loader = DataLoader(train_ds, batch_size=batch_size, collate_fn = my_collate, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            train_loader = DataLoader(train_ds, batch_size=batch_size, collate_fn = my_collate, shuffle=True, num_workers=2, worker_init_fn=seed_worker, generator=g, pin_memory=pin_memory)
 
             # create a validation data loader
             val_healthy_ds= ArrayDataset(MCIC_ratio_healthy[healthy_split:], labels=MCIC_healthy_labels[healthy_split:])
@@ -358,7 +366,7 @@ def data_pull_and_load(
             train_schiz_ds = TwoImageDataset(image_files=MCIC_t1_t2_schiz[:schiz_split], labels=MCIC_schiz_labels[:schiz_split], transform=transforms, image_only=True)
             train_ds = train_healthy_ds + train_schiz_ds 
             
-            train_loader = DataLoader(train_ds, batch_size=8, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            train_loader = DataLoader(train_ds, batch_size=8, shuffle=True, num_workers=2, worker_init_fn=seed_worker, generator=g, pin_memory=pin_memory)
             # create a validation data loader
             val_healthy_ds = TwoImageDataset(image_files=MCIC_t1_t2_healthy[healthy_split:], labels=MCIC_healthy_labels[healthy_split:], transform=transforms, image_only=True)
             val_schiz_ds = TwoImageDataset(image_files=MCIC_t1_t2_schiz[schiz_split:], labels=MCIC_schiz_labels[schiz_split:], transform=transforms, image_only=True)
