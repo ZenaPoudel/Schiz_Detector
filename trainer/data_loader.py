@@ -186,7 +186,7 @@ def data_pull_and_load(
             val_schiz_ds = ImageDataset(image_files=schiz_val, labels=schiz_val_label, image_only=True,  transform=transforms)
             val_ds = val_healthy_ds + val_schiz_ds 
 
-            val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            val_loader = DataLoader(val_ds, batch_size=batch_size, num_workers=2, pin_memory=pin_memory)
         else:
             healthy_subjects = []
             schiz_subjects = []
@@ -233,7 +233,7 @@ def data_pull_and_load(
             val_schiz_ds = ImageDataset(image_files=schiz[schiz_split:], labels=schiz_labels[schiz_split:], image_only=True,  transform=transforms)
             val_ds = val_healthy_ds + val_schiz_ds 
 
-            val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            val_loader = DataLoader(val_ds, batch_size=batch_size, num_workers=2, pin_memory=pin_memory)
     else:
         mcic_t1_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/MCIC_/MCICShare/**/anat/*_T1w.nii', recursive = True)
         cobre_t1_file = glob2.glob('/content/drive/MyDrive/schizophrenia_data/COBRE/schizconnect_COBRE_images_16224/COBRE/**/anat/**/*_T1w.nii.gz', recursive = True)
@@ -349,7 +349,7 @@ def data_pull_and_load(
 
             val_ds =val_healthy_ds+val_schiz_ds
 
-            val_loader = DataLoader(val_ds, batch_size=batch_size, collate_fn = my_collate, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            val_loader = DataLoader(val_ds, batch_size=batch_size, collate_fn = my_collate, num_workers=2, pin_memory=pin_memory)
 
         elif ratio=='channel':
             for M1,M2 in same_subject_and_run_t1_t2_path:
@@ -373,5 +373,5 @@ def data_pull_and_load(
             val_schiz_ds = TwoImageDataset(image_files=MCIC_t1_t2_schiz[schiz_split:], labels=MCIC_schiz_labels[schiz_split:], transform=transforms, image_only=True)
             val_ds = val_healthy_ds + val_schiz_ds 
             
-            val_loader = DataLoader(val_ds, batch_size=8, shuffle=True, num_workers=2, pin_memory=pin_memory)
+            val_loader = DataLoader(val_ds, batch_size=8, num_workers=2, pin_memory=pin_memory)
     return train_ds, train_loader, val_loader
