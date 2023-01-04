@@ -242,7 +242,7 @@ def main():
 	plt.plot(x3, y3, label='Validation Accuracy')
 	plt.title('Training loss, Training and Validation Accurccy')
 
-	plt.legend(loc='upper right')
+	plt.legend(loc='upper left')
 	plt.savefig('TrainingandValidationAccurccy.png')
 	
 	F1_score = plt.figure('F1', (12,6))
