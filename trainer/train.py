@@ -261,7 +261,7 @@ def main():
 	
 	plt.title('Training and Validation F1 score')
 
-	plt.legend(loc='upper right')
+	plt.legend(loc='upper left')
 	plt.savefig('TrainingandValidationF1.png')
 	
 
