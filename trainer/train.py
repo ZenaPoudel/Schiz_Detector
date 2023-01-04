@@ -10,6 +10,14 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import json
 import sys
+random_seed = 1 # or any of your favorite number 
+torch.manual_seed(random_seed)
+torch.cuda.manual_seed(random_seed)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+import numpy as np
+np.random.seed(random_seed)
+
 
 device = torch.device("cuda" ) if torch.cuda.is_available() else "cpu"
 
