@@ -257,7 +257,7 @@ def main():
 	
 	
 	plt.plot(x2, y2, label='Training F1 score')
-	plt.plot(x4, y4, label='epoch_train_F1_values')
+	plt.plot(x4, y4, label='validation_F1_score')
 	
 	plt.title('Training and Validation F1 score')
 
