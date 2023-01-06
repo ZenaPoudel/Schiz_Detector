@@ -106,7 +106,7 @@ def model_3DCNN_2_dense_layer (dropout=0.3):
 
     '''
     model = nn.Sequential(
-        nn.Conv3d(2, 32, [3,3,3], stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None),
+        nn.Conv3d(1, 32, [3,3,3], stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None),
         nn.ReLU(inplace=False),
         nn.Conv3d(32, 32, [3,3,3], stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None),
         torch.nn.ReLU(inplace=False),
