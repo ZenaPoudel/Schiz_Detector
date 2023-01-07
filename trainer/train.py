@@ -50,7 +50,7 @@ def main():
 
 	# loss_function = torch.nn.BCEWithLogitsLoss()
 	loss_function = torch.nn.BCELoss()
-	optimizer = torch.optim.Adam(model.parameters(), 0.0001)
+	optimizer = torch.optim.Adam(model.parameters(), args.learning_rate)
 	val_interval = 1
 	best_metric = -1
 	best_metric_epoch = -1
@@ -71,8 +71,7 @@ def main():
 	epoch_val_specificity_values = []
 	epoch_val_F1_values = []
 	# writer = SummaryWriter()
-	max_epochs = 2
-
+	max_epochs = args.epoch
 
 	for epoch in range(max_epochs):
 	  y_pred = []
