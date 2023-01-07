@@ -95,7 +95,7 @@ def main():
 	    labels = []
 	    for i in labe:
 	      if i == 0:
-					i = [1,0]
+					i=[1,0]
 					labels.append(i)
 	      elif i == 1:
 					i = [0,1]
