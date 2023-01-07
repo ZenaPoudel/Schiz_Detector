@@ -96,11 +96,11 @@ def main():
 	    labels = []
 	    for i in labe:
 	      if i == 0:
-		i = [1,0]
-		labels.append(i)
+					i = [1,0]
+					labels.append(i)
 	      elif i == 1:
-		i = [0,1]
-		labels.append(i)
+					i = [0,1]
+					labels.append(i)
 	    label = np.array(labels)
 	    labels = torch.from_numpy(label)
 	    labels = labels.float().to(device)
@@ -163,16 +163,16 @@ def main():
 	      metric_count = 0
 	      val_step = 0
 	      for val_data in val_loader:
-		val_step +=1
-		val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
-		val_outputs = model(val_images)
+					val_step +=1
+					val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
+					val_outputs = model(val_images)
 
-		val_output = (torch.max(torch.exp(val_outputs), 1)[1]).data.cpu().numpy()
-		val_y_pred.extend(val_output) # Save Prediction
+					val_output = (torch.max(torch.exp(val_outputs), 1)[1]).data.cpu().numpy()
+					val_y_pred.extend(val_output) # Save Prediction
 
 
-		val_labels = val_labels.data.cpu().numpy()
-		val_y_true.extend(val_labels) # Save Truth
+					val_labels = val_labels.data.cpu().numpy()
+					val_y_true.extend(val_labels) # Save Truth
 
 	    vtn, vfp, vfn, vtp = confusion_matrix(val_y_true, val_y_pred).ravel()
 
@@ -210,8 +210,6 @@ def main():
 	    print(f"epoch {epoch + 1}, val confusion matrix:{(vtn, vfp, vfn, vtp)} epoch val accuracy: {val_acc:.4f}, epoch val balanced_Acc:{val_bal_acc:.4f} epoch precision: { val_precision:.4f}, epoch recall: {val_recall:.4f}, epoch F1: {val_f1_score:.4f}, epoch specificity: {val_specificity:.4f}, epoch val auc score: {roc_auc_score(val_y_true, val_y_pred)}")
 
 	print(f"Training completed, validation best_metric: {best_metric:.4f} at epoch: {best_metric_epoch}")
-
-
 
 
 
