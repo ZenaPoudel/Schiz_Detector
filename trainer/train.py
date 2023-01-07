@@ -148,9 +148,9 @@ def main():
       model.eval()
       with torch.no_grad():
         num_correct = 0.0
-	metric_count = 0
-	val_step = 0
-	for val_data in val_loader:
+        metric_count = 0
+        val_step = 0
+        for val_data in val_loader:
           val_step +=1
           val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
           val_outputs = model(val_images)
