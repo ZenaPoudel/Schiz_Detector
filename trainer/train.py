@@ -112,8 +112,8 @@ def main():
       labels = labe.data.cpu().numpy()
       y_true.extend(labels)
       
-      epoch_loss /= step
-      epoch_loss_values.append(epoch_loss)
+    epoch_loss /= step
+    epoch_loss_values.append(epoch_loss)
 
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
