@@ -191,9 +191,9 @@ def main():
 
       if val_f1_score > best_metric:
         best_metric = val_f1_score
-	best_metric_epoch = epoch + 1
-	torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
-	print("saved new validation best metric model")
+        best_metric_epoch = epoch + 1
+        torch.save(model.state_dict(), "best_metric_model_classification3d_array.pth")
+        print("saved new validation best metric model")
 
       print(f"epoch {epoch + 1}, validation, confusion matrix:{(vtn, vfp, vfn, vtp)} accuracy: {val_acc:.4f}, balanced accuracy:{val_bal_acc:.4f} precision: { val_precision:.4f}, recall: {val_recall:.4f}, F1: {val_f1_score:.4f}, specificity: {val_specificity:.4f}, auc score: {roc_auc_score(val_y_true, val_y_pred)}")
     
