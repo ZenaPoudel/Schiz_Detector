@@ -143,5 +143,4 @@ class TwoImageDataset(Dataset, Randomizable):
         if len(data) == 1:
             return data[0]
         # use tuple instead of list as the default collate_fn callback of MONAI DataLoader flattens nested lists
-        print(len(data))
         return tuple(data)
