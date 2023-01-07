@@ -259,7 +259,7 @@ def data_pull_and_load(
                 MCIC_schiz_subjects.append(row['participant_id'])
             else:
                 MCIC_healthy_subjects.append(row['participant_id'])
-                
+        print(5)     
         same_subject_t1_t2_path= []
 
 #         for i in mcic_t1_file:
@@ -286,7 +286,7 @@ def data_pull_and_load(
         MCIC_t1_t2_schiz = []
         MCIC_healthy_labels= []
         MCIC_schiz_labels= []
-
+        print(7)
 #             COBRE_t1_t2_healthy = []
 #             COBRE_t1_t2_schiz = []
 #             COBRE_healthy_labels = []
@@ -294,6 +294,7 @@ def data_pull_and_load(
      
 
         if ratio=='Yes':
+           print(9)
            for M1,M2 in same_subject_and_run_t1_t2_path:
             if (any(ele in M1 for ele in MCIC_healthy_subjects)):
                 MCIC_t1_t2_healthy.append((M1,M2))
@@ -352,6 +353,7 @@ def data_pull_and_load(
             val_loader = DataLoader(val_ds, batch_size=batch_size, collate_fn = my_collate, num_workers=2, pin_memory=pin_memory)
 
         elif ratio=='channel':
+            print(15)
             for M1,M2 in same_subject_and_run_t1_t2_path:
                 if (any(ele in M1 for ele in MCIC_healthy_subjects)):
                     MCIC_t1_t2_healthy.append((M1,M2))
