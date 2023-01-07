@@ -39,7 +39,8 @@ def same_model_3DCNN ():
         nn.MaxPool3d([3,3,3], stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False),
         nn.Dropout(p=0.25, inplace=False),
         nn.Flatten(start_dim=1, end_dim=- 1),
-        nn.Sigmoid(nn.Linear(46656, 512, bias=True, device=None, dtype=None)),
+        nn.Linear(46656, 512, bias=True, device=None, dtype=None),
+        nn.Sigmoid(),
         nn.Dropout(p=0.5, inplace=False),
         nn.Linear(512, 2, bias=True, device=None, dtype=None),
         nn.Softmax(dim=1)
