@@ -50,7 +50,7 @@ def main():
 
 	# loss_function = torch.nn.BCEWithLogitsLoss()
 	loss_function = torch.nn.BCELoss()
-	optimizer = torch.optim.Adam(model.parameters(), args.learning_rate)
+	optimizer = torch.optim.Adam(model.parameters(), 0.0001)
 	val_interval = 1
 	best_metric = -1
 	best_metric_epoch = -1
@@ -71,7 +71,8 @@ def main():
 	epoch_val_specificity_values = []
 	epoch_val_F1_values = []
 	# writer = SummaryWriter()
-	max_epochs = args.epoch
+	max_epochs = 2
+
 
 	for epoch in range(max_epochs):
 	  y_pred = []
@@ -95,7 +96,7 @@ def main():
 	    labels = []
 	    for i in labe:
 	      if i == 0:
-		i=[1,0]
+		i = [1,0]
 		labels.append(i)
 	      elif i == 1:
 		i = [0,1]
@@ -162,16 +163,16 @@ def main():
 	      metric_count = 0
 	      val_step = 0
 	      for val_data in val_loader:
-					val_step +=1
-					val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
-					val_outputs = model(val_images)
+		val_step +=1
+		val_images, val_labels = val_data[0].to(device), val_data[1].to(device)
+		val_outputs = model(val_images)
 
-					val_output = (torch.max(torch.exp(val_outputs), 1)[1]).data.cpu().numpy()
-					val_y_pred.extend(val_output) # Save Prediction
+		val_output = (torch.max(torch.exp(val_outputs), 1)[1]).data.cpu().numpy()
+		val_y_pred.extend(val_output) # Save Prediction
 
 
-					val_labels = val_labels.data.cpu().numpy()
-					val_y_true.extend(val_labels) # Save Truth
+		val_labels = val_labels.data.cpu().numpy()
+		val_y_true.extend(val_labels) # Save Truth
 
 	    vtn, vfp, vfn, vtp = confusion_matrix(val_y_true, val_y_pred).ravel()
 
