@@ -1,6 +1,6 @@
 import argparse
 import torch
-from ignite.metrics import Accuracy, Precision, Recall
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, roc_auc_score, accuracy_score, balanced_accuracy_score
 from torch.nn.modules.loss import NLLLoss
 from model import model_3DCNN
 from data_loader import data_pull_and_load
