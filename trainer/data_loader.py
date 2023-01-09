@@ -30,6 +30,7 @@ from monai.transforms import (
     ResizeWithPadOrCrop,
     Spacing,
     ScaleIntensity,
+    NormalizeIntensity,
     Orientation, 
     LoadImage,
     SpatialResample,
@@ -142,7 +143,7 @@ def data_pull_and_load(
                     COBRE_schiz.append(C)
                     COBRE_schiz_labels.append(1)
 
-            transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), ResizeWithPadOrCrop(spatial_size=resize_spatial_size)])
+            transforms = Compose([NormalizeIntensity, EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), ResizeWithPadOrCrop(spatial_size=resize_spatial_size)])
 
             healthy_train = []
             healthy_valid = []
@@ -212,7 +213,7 @@ def data_pull_and_load(
                     schiz.append(f)
                     schiz_labels.append(1)
 
-            transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), ResizeWithPadOrCrop(spatial_size=resize_spatial_size)])
+            transforms = Compose([NormalizeIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), ResizeWithPadOrCrop(spatial_size=resize_spatial_size)])
         #     print("Resize instead of ResizeWithPadOrCrop")
         #     transforms = Compose([ScaleIntensity(), EnsureChannelFirst(), Orientation(axcodes='RAS'), Spacing(pixdim=pix_dimension), Resize(spatial_size=resize_spatial_size)])
 
