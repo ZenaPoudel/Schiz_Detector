@@ -3,7 +3,7 @@ import torch
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, roc_auc_score, accuracy_score, balanced_accuracy_score
 from torch.nn.modules.loss import NLLLoss
 from model import model_3DCNN
-from data_loader import data_pull_and_load
+from T1_all_data_loader import data_pull_and_load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
