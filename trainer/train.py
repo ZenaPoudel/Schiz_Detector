@@ -4,7 +4,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 from torch.nn.modules.loss import NLLLoss
 from model import model_3DCNN
 from T1_all_dataloader import data_pull_and_load
-from singlesubratio import data_pull_and_load
+# from singlesubratio import data_pull_and_load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
