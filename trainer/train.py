@@ -4,6 +4,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 from torch.nn.modules.loss import NLLLoss
 from model import model_3DCNN
 from T1_all_dataloader import data_pull_and_load
+from singlesubratio import data_pull_and_load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -41,8 +42,14 @@ def main():
 	      resize_spatial_size=(resize_spatial_size[0], resize_spatial_size[1], resize_spatial_size[2]),
 	      test_split=args.test_split,
 	      batch_size=args.batch_size,
-	      ratio=args.ratio
 	  )
+
+#   train_ds, train_loader, val_loader = data_pull_and_load( 
+# 	      pix_dimension=(args.pix_dimension[0], args.pix_dimension[1], args.pix_dimension[2]), 
+# 	      resize_spatial_size=(resize_spatial_size[0], resize_spatial_size[1], resize_spatial_size[2]),
+# 	      test_split=args.test_split,
+# 	      batch_size=args.batch_size,
+# 	  )
   model = model_3DCNN(dropout = args.dropout)
   loss_function = torch.nn.BCELoss()
   optimizer = torch.optim.Adam(model.parameters(), args.learning_rate)
