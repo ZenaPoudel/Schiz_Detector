@@ -37,7 +37,6 @@ def main():
   args = parser.parse_args()
   resize_spatial_size = [int(item) for item in args.resize_spatial_size.split(',')]
   train_ds, train_loader, val_loader = data_pull_and_load( 
-	      mri_type = args.mri_type, 
 	      pix_dimension=(args.pix_dimension[0], args.pix_dimension[1], args.pix_dimension[2]), 
 	      resize_spatial_size=(resize_spatial_size[0], resize_spatial_size[1], resize_spatial_size[2]),
 	      test_split=args.test_split,
