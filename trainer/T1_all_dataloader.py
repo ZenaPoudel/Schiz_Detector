@@ -34,8 +34,7 @@ from monai.transforms import (
 pin_memory = torch.cuda.is_available() #MAIN
 
 
-def data_pull_and_load(
-    mri_type = 'T1', 
+def data_pull_and_load( 
     pix_dimension=(2,2,2), 
     resize_spatial_size=(99,99,99),
     test_split=0.3,
