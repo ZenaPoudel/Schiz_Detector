@@ -129,6 +129,7 @@ def data_pull_and_load(
       COBRE_healthy_subjects = []
       COBRE_schiz_subjects = []
       mcic_participants['diagnosis'] = np.where(mcic_participants['dx']== 'No_Known_Disorder', 0, 1)
+      diagnosis=[]
       for index, row in cobre_participants.iterrows():
         if (row['dx'] == 'No_Known_Disorder'):
           diagnosis.append(0)
@@ -172,7 +173,7 @@ def data_pull_and_load(
           if (any(ele in C for ele in COBRE_healthy_subjects)):
               COBRE_healthy.append(C)
               COBRE_healthy_labels.append(0)
-          elif(any(ele in cobre_t1 for ele in COBRE_schiz_subjects))::  
+          elif(any(ele in cobre_t1 for ele in COBRE_schiz_subjects)):  
               COBRE_schiz.append(C)
               COBRE_schiz_labels.append(1)
 
@@ -309,6 +310,8 @@ def data_pull_and_load(
         COBRE_healthy_subjects = []
         COBRE_schiz_subjects = []
         mcic_participants['diagnosis'] = np.where(mcic_participants['dx']== 'No_Known_Disorder', 0, 1)
+        
+        diagnosis=[]
         for index, row in cobre_participants.iterrows():
           if (row['dx'] == 'No_Known_Disorder'):
             diagnosis.append(0)
@@ -357,7 +360,7 @@ def data_pull_and_load(
             if (any(ele in C1 for ele in COBRE_healthy_subjects)):
                  COBRE_t1_t2_healthy.append((C1,C2))
                  COBRE_healthy_labels.append(0)
-            elsi:  
+            elif(any(ele in cobre_t1 for ele in COBRE_schiz_subjects)):  
                 COBRE_t1_t2_schiz.append((C1,C2))
                 COBRE_schiz_labels.append(1)
         
