@@ -3,7 +3,7 @@ import torch
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, roc_auc_score, accuracy_score, balanced_accuracy_score
 from torch.nn.modules.loss import NLLLoss
 from model import model_3DCNN
-from T1_all_data_loader import data_pull_and_load
+from T1_all_dataloader import data_pull_and_load
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,7 +36,7 @@ def main():
   parser.add_argument('--ratio', type=str, default='NO')
   args = parser.parse_args()
   resize_spatial_size = [int(item) for item in args.resize_spatial_size.split(',')]
-  train_ds, train_loader, val_loader = data_pull_and_load(  data_source= args.data_source, 
+  train_ds, train_loader, val_loader = data_pull_and_load( 
 	      mri_type = args.mri_type, 
 	      pix_dimension=(args.pix_dimension[0], args.pix_dimension[1], args.pix_dimension[2]), 
 	      resize_spatial_size=(resize_spatial_size[0], resize_spatial_size[1], resize_spatial_size[2]),
