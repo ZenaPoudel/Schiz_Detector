@@ -119,6 +119,12 @@ def main():
 
       labels = labe.data.cpu().numpy()
       y_true.extend(labels)
+	
+      del inputs
+      del labels
+      del output
+      del outputs
+      torch.cuda.empty_cache()
       
     epoch_loss /= step
     epoch_loss_values.append(epoch_loss)
@@ -169,6 +175,11 @@ def main():
 
           val_labels = val_labels.data.cpu().numpy()
           val_y_true.extend(val_labels) # Save Truth
+	  del val_images
+          del val_labels
+          del val_outputs
+          del val_output
+          torch.cuda.empty_cache()
           
       vtn, vfp, vfn, vtp = confusion_matrix(val_y_true, val_y_pred).ravel()
 
